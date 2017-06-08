@@ -128,6 +128,62 @@
 	$config->tablas["tiposcaja"] = $tabla;
 
 	/**
+	 * DESTINOS
+	 */
+	$tabla = new Tabla("destinos", "destinos", "Destinos", "el destino", true, "objeto/destinos/", "fa-plane", "NombDest");
+	$tabla->isSubItem = true;
+	$tabla->labelField = "NombDest";
+
+	$tabla->addFieldId("NumeDest", "Número", true, true);
+	$tabla->addField("NombDest", "text", 80, "Nombre");
+	$tabla->fields["NombDest"]["cssControl"] = "ucase";
+	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+
+	$config->tablas["destinos"] = $tabla;
+
+	/**
+	 * RANGOS
+	 */
+	$tabla = new Tabla("rangos", "rangos", "Rangos Etarios", "el rango", true, "objeto/rangos/", "fa-child", "NombRang");
+	$tabla->isSubItem = true;
+	$tabla->labelField = "NombRang";
+
+	$tabla->addFieldId("NumeRang", "Número", true, true);
+	$tabla->addField("NombRang", "text", 80, "Nombre");
+	$tabla->fields["NombRang"]["cssControl"] = "ucase";
+	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+
+	$config->tablas["rangos"] = $tabla;
+
+	/**
+	 * TEMPORADAS
+	 */
+	$tabla = new Tabla("temporadas", "temporadas", "Temporadas", "la temporada", true, "objeto/temporadas/", "fa-map-o", "NombTemp");
+	$tabla->isSubItem = true;
+	$tabla->labelField = "NombTemp";
+
+	$tabla->addFieldId("NumeTemp", "Número", true, true);
+	$tabla->addField("NombTemp", "text", 80, "Nombre");
+	$tabla->fields["NombTemp"]["cssControl"] = "ucase";
+	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+
+	$config->tablas["temporadas"] = $tabla;
+
+	/**
+	 * COLEGIOS
+	 */
+	$tabla = new Tabla("colegios", "colegios", "Colegios", "el colegio", true, "objeto/colegios/", "fa-graduation-cap", "NombCole");
+	$tabla->isSubItem = true;
+	$tabla->labelField = "NombCole";
+
+	$tabla->addFieldId("NumeCole", "Número", true, true);
+	$tabla->addField("NombCole", "text", 80, "Nombre");
+	$tabla->fields["NombCole"]["cssControl"] = "ucase";
+	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+
+	$config->tablas["colegios"] = $tabla;
+
+	/**
 	 * CAJA
 	 */
 	$tabla = new Caja("caja", "caja", "Caja", "el detalle", true, "objeto/caja/", "fa-money");
