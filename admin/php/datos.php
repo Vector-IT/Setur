@@ -7,7 +7,6 @@
 	require_once 'datosdb.php';
 	require_once 'vectorForms.php';
 
-	require_once 'custom/caja.php';
 	require_once 'custom/cuota.php';
 	require_once 'custom/cuotapago.php';
 	require_once 'custom/cheque.php';
@@ -114,20 +113,6 @@
 	$config->tablas["provincias"] = $tabla;
 
 	/**
-	 * TIPOS DE CAJA
-	 */
-	$tabla = new Tabla("tiposcaja", "tiposcaja", "Tipos de operaciones de caja", "el registro", true, "objeto/tiposcaja/", "fa-sitemap");
-	$tabla->isSubItem = true;
-	$tabla->labelField = "NombTipoCaja";
-
-	$tabla->addFieldId("NumeTipoCaja", "Número");
-	$tabla->addField("NombTipoCaja", "text", 100, "Nombre");
-	$tabla->fields["NombTipoCaja"]["cssControl"] = "ucase";
-	$tabla->addField("NumeTipoOper", "select", 0, "Tipo de operación", true, false, false, true, '', '', 'tiposoperaciones', 'NumeTipoOper', 'NombTipoOper');
-
-	$config->tablas["tiposcaja"] = $tabla;
-
-	/**
 	 * DESTINOS
 	 */
 	$tabla = new Tabla("destinos", "destinos", "Destinos", "el destino", true, "objeto/destinos/", "fa-plane", "NombDest");
@@ -170,8 +155,8 @@
 	$config->tablas["temporadas"] = $tabla;
 
 	/**
-	 * COLEGIOS
-	 */
+	* COLEGIOS
+	*/
 	$tabla = new Tabla("colegios", "colegios", "Colegios", "el colegio", true, "objeto/colegios/", "fa-graduation-cap", "NombCole");
 	$tabla->isSubItem = true;
 	$tabla->labelField = "NombCole";
@@ -184,40 +169,24 @@
 	$config->tablas["colegios"] = $tabla;
 
 	/**
-	 * CAJA
+	 * CONTRATOS
 	 */
-	$tabla = new Caja("caja", "caja", "Caja", "el detalle", true, "objeto/caja/", "fa-money");
-	$tabla->labelField = "NombCaja";
-	$tabla->allowDelete = false;
-	$tabla->allowEdit = false;
-	$tabla->searchFields = ["NombCaja", "FechCaja", "NumeTipoCaja"];
-	$tabla->jsFiles = ["admin/js/custom/caja.js"];
-
-	$tabla->jsOnLoad = "iniciar();";
-
-	$tabla->btnForm = [
-		array(
-			"titulo"=> '<i class="fa fa-th fa-fw" aria-hidden="true"></i> Ver Todos',
-			"class"=> "btn-primary",
-			"onclick"=> "verTodos()"
-		)
-	];
+	$tabla = new Tabla("contratos", "contratos", "Contratos", "el contrato", true, "objeto/contratos/", "fa-handshake-o", "FechSali DESC");
+	$tabla->labelField = "NombCont";
 	
-	$tabla->addFieldId("NumeCaja", "Número de caja");
-	$tabla->addField("FechCaja", "date", 80, "Fecha");
-	$tabla->fields["FechCaja"]["isHiddenInForm"] = true;
-	
-	$tabla->addField("NumeUser", "select", 0, "Usuario", true, false, false, true, '', '', 'usuarios', 'NumeUser', 'NombPers');
-	$tabla->fields["NumeUser"]["isHiddenInForm"] = true;
-
-	$tabla->addField("NombCaja", "text", 80, "Descripcion");
-	$tabla->fields["NombCaja"]["cssControl"] = "ucase";
-	$tabla->addField("NumeTipoCaja", "select", 80, "Tipo de operación", true, false, false, true, '', '', 'tiposcaja', 'NumeTipoCaja', 'NombTipoCaja', '', 'NombTipoCaja');
-	$tabla->addField("ImpoCaja", "number", 0, "Importe");
-	$tabla->fields["ImpoCaja"]["step"] = "0.1";
+	$tabla->addFieldId("NumeCont", "Número", true, true);
+	$tabla->addField("NumeCole", "select", 80, "Colegio", true, false, false, true, '', '', 'colegios', 'NumeCole', 'NombCole', 'NumeEsta = 1', 'NombCole');
+	$tabla->addField("NombCont", "text", 80, "Nombre");
+	$tabla->addField("NumeRang", "select", 80, "Rango etario", true, false, false, true, '', '', 'rangos', 'NumeRang', 'NombRang', 'NumeEsta = 1', 'NombRang');
+	$tabla->addField("NumeDest", "select", 80, "Destino", true, false, false, true, '', '', 'destinos', 'NumeDest', 'NombDest', 'NumeEsta = 1', 'NombDest');
+	$tabla->addField("NumeTemp", "select", 80, "Temporada", true, false, false, true, '', '', 'temporadas', 'NumeTemp', 'NombTemp', 'NumeEsta = 1', 'NombTemp');
+	$tabla->addField("FechSali", "date", 0, "Fecha de salida");
+	$tabla->addField("CantDias", "number", 0, "Cantidad de días");
+	$tabla->addField("ValoCont", "number", 0, "Precio");
+	$tabla->addField("ObseCont", "textarea", 80, "Observaciones");
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
 
-	$config->tablas["caja"] = $tabla;
+	$config->tablas["contratos"] = $tabla;
 
 	/**
 	 * CUOTAS
@@ -347,8 +316,12 @@
 	/**
 	 * CLIENTES
 	 */
-	$tabla = new Tabla("clientes", "clientes", "Clientes", "el Cliente", true, "objeto/clientes/", "fa-id-card-o");
+	$tabla = new Tabla("clientes", "clientes", "Clientes", "el Cliente", false, "objeto/clientes/", "fa-id-card-o");
 	$tabla->labelField = "NombClie";
+	$tabla->masterTable = "contratos";
+	$tabla->masterFieldId = "NumeCont";
+	$tabla->masterFieldName = "NombCont";
+	
 
 	$tabla->searchFields = array("NombClie");
 
