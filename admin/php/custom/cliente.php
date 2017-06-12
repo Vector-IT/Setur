@@ -11,6 +11,17 @@ class Cliente extends Tabla
 		
 		$fechVenc = new \DateTime($datos["FechCuot"]);
 		unset($datos["FechCuot"]);
+
+		$fechFina = $fechVenc->add(new \DateInterval("P".$cantCuot."M"));
+		$fechSali = $config->buscarDato("SELECT FechSali FROM contratos WHERE NumeCont = ". $datos["NumeCont"]);
+		$fechSali = new \DateTime($fechSali);
+
+		if ($fechFina > $fechSali) {
+			$result["estado"] = "La fecha del último pago es posterior a la fecha de salida.";
+
+			return json_encode($result);
+		}
+		
 		
 		$result = parent::insertar($datos);
 		
