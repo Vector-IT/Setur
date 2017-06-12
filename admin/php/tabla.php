@@ -611,7 +611,7 @@ class Tabla
 
             $strFields = '';
             foreach ($this->fields as $field) {
-                if ($field['type'] != "calcfield") {
+                if ($field['type'] != "calcfield" && $field["showOnList"] != false) {
                     if ($strFields != '') {
                         $strFields.= $crlf.', ';
                     }
@@ -934,7 +934,9 @@ class Tabla
         $strSalida.= $crlf.'$(document).ready(function() {';
         $strSalida.= $crlf.'	$("#actualizando").hide();';
         $strSalida.= $crlf.'	$("#divMsj").hide();';
-        $strSalida.= $crlf.'	$("#frm'. $this->tabladb .'").submit(function() {aceptar'. $this->tabladb .'();});';
+        $strSalida.= $crlf.'	$("#frm'. $this->tabladb .'").submit(function() {';
+        $strSalida.= $crlf.'	    aceptar'. $this->tabladb .'();';
+        $strSalida.= $crlf.'	});';
         $strSalida.= $crlf.'';
         $strSalida.= $crlf.'	$("button[type=\'reset\']").on("click", function(event){';
         $strSalida.= $crlf.'		event.preventDefault();';

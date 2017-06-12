@@ -7,6 +7,7 @@
 	require_once 'datosdb.php';
 	require_once 'vectorForms.php';
 
+	require_once 'custom/cliente.php';
 	require_once 'custom/cuota.php';
 	require_once 'custom/cuotapago.php';
 	require_once 'custom/cheque.php';
@@ -174,6 +175,16 @@
 	$tabla = new Tabla("contratos", "contratos", "Contratos", "el contrato", true, "objeto/contratos/", "fa-handshake-o", "FechSali DESC");
 	$tabla->labelField = "NombCont";
 	
+	$tabla->btnList = [
+			array(
+					"id"=>"btnVerPasa",
+					"titulo"=> 'Pasajeros',
+					"onclick"=> "verPasajeros",
+					"class"=> "btn-default"),
+	];
+	
+	$tabla->jsFiles = ["admin/js/custom/contratos.js"];
+	
 	$tabla->addFieldId("NumeCont", "Número", true, true);
 	$tabla->addField("NumeCole", "select", 80, "Colegio", true, false, false, true, '', '', 'colegios', 'NumeCole', 'NombCole', 'NumeEsta = 1', 'NombCole');
 	$tabla->addField("NombCont", "text", 80, "Nombre");
@@ -182,20 +193,100 @@
 	$tabla->addField("NumeTemp", "select", 80, "Temporada", true, false, false, true, '', '', 'temporadas', 'NumeTemp', 'NombTemp', 'NumeEsta = 1', 'NombTemp');
 	$tabla->addField("FechSali", "date", 0, "Fecha de salida");
 	$tabla->addField("CantDias", "number", 0, "Cantidad de días");
-	$tabla->addField("ValoCont", "number", 0, "Precio");
-	$tabla->addField("ObseCont", "textarea", 80, "Observaciones");
+	$tabla->addField("ImpoCont", "number", 0, "Precio");
+	$tabla->addField("ObseCont", "textarea", 80, "Observaciones", false);
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
 
 	$config->tablas["contratos"] = $tabla;
 
 	/**
+	 * CLIENTES
+	 */
+	$tabla = new Cliente("clientes", "clientes", "Clientes", "el Cliente", false, "objeto/clientes/", "fa-id-card-o");
+	$tabla->labelField = "NombClie";
+	$tabla->masterTable = "contratos";
+	$tabla->masterFieldId = "NumeCont";
+	$tabla->masterFieldName = "NombCont";
+	
+	
+	$tabla->searchFields = array("NombClie");
+	
+	$tabla->btnList = [
+			array(
+					"id"=>"btnVerCuotas",
+					"titulo"=> 'Ver Cuotas',
+					"onclick"=> "verCuotas",
+					"class"=> "btn-default"),
+	];
+	
+	$tabla->jsFiles = ['admin/js/custom/clientes.js'];
+	$tabla->jsOnNew = "toggleCuotas(true);";	
+	$tabla->jsOnEdit = "toggleCuotas(false);";
+	
+	$tabla->addFieldId("NumeClie", "number", true, true);
+	
+	$tabla->addField("NumeCont", "number", 0, "Contrato");
+	$tabla->fields["NumeCont"]["isHiddenInForm"] = true;
+	$tabla->fields["NumeCont"]["isHiddenInList"] = true;
+	
+	$tabla->addField("NombClie", "text", 200, "Nombre");
+	
+	$tabla->addField("NumeTele", "text", 100, "Teléfono", false);
+	$tabla->fields["NumeTele"]["cssGroup"] = "form-group2";
+	
+	$tabla->addField("NumeCelu", "text", 100, "Celular", false);
+	$tabla->fields["NumeCelu"]["cssGroup"] = "form-group2";
+	
+	$tabla->addField("MailClie", "email", 200, "E-mail", false);
+	
+	$tabla->addField("DireClie", "text", 200, "Dirección");
+	$tabla->fields["DireClie"]["cssGroup"] = "form-group2";
+	$tabla->fields["DireClie"]["isHiddenInList"] = true;
+	
+	$tabla->addField("NombBarr", "text", 200, "Barrio", false);
+	$tabla->fields["NombBarr"]["cssGroup"] = "form-group2";
+	$tabla->fields["NombBarr"]["isHiddenInList"] = true;
+	
+	$tabla->addField("NombLoca", "text", 200, "Localidad");
+	$tabla->fields["NombLoca"]["cssGroup"] = "form-group2";
+	
+	$tabla->addField("NumeProv", "select", 200, "Provincia", true, false, false, true, '', '', 'provincias', 'NumeProv', 'NombProv', '', 'NombProv');
+	$tabla->fields["NumeProv"]["cssGroup"] = "form-group2";
+	$tabla->fields["NumeProv"]["isHiddenInList"] = true;
+	
+	$tabla->addField("CodiPost", "text", 0, "Código postal", false);
+	$tabla->fields["CodiPost"]["isHiddenInList"] = true;
+	
+	$tabla->addField("NumeVend", "select", 80, "Vendedor", true, false, false, true, '', '', 'vendedores', 'NumeVend', 'NombVend', '', 'NombVend');
+	$tabla->fields["NumeVend"]["isHiddenInList"] = true;
+	
+	$tabla->addField("CantCuot", "number", 0, "Cantidad de Cuotas");
+	$tabla->fields["CantCuot"]["showOnList"] = false;
+	$tabla->fields["CantCuot"]["cssGroup"] = "form-group2";
+	
+	$tabla->addField("FechCuot", "date", 0, "Fecha de comienzo");
+	$tabla->fields["FechCuot"]["showOnList"] = false;
+	$tabla->fields["FechCuot"]["cssGroup"] = "form-group2";
+	
+	$tabla->addField("Cuotas", "calcfield", 0, "Cantidad de Cuotas");
+	$tabla->fields["Cuotas"]["txtAlign"] = "right";
+	$tabla->fields["Cuotas"]["showOnForm"] = false;
+	
+	$tabla->addField("ObseClie", "textarea", 201, "Observaciones", false);
+	$tabla->fields["ObseClie"]["isHiddenInList"] = true;
+	
+	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	
+	$config->tablas["clientes"] = $tabla;
+	
+	/**
 	 * CUOTAS
 	 */
-	$tabla = new Cuota("cuotas", "cuotas", "Cuotas", "la Cuota", false, "", "fa-map-o");
+	$tabla = new Cuota("cuotas", "cuotas", "Cuotas", "la Cuota", false, "", "fa-money");
 	$tabla->labelField = "NumeCuot";
-	$tabla->masterTable = "lotes";
-	$tabla->masterFieldId = "NumeLote";
-	$tabla->masterFieldName = "NombLote";
+	$tabla->masterTable = "clientes";
+	$tabla->masterFieldId = "NumeClie";
+	$tabla->masterFieldName = "NombClie";
 
 	$tabla->btnList = [
 		array(
@@ -216,9 +307,9 @@
 	$tabla->addField("FechCuot", "date", 0, "Fecha de creación");
 	$tabla->fields["FechCuot"]["showOnForm"] = false;
 
-	$tabla->addField("NumeLote", "select", 0, "Lote", true, false, false, true, '', '', 'lotes', 'NumeLote', 'NombLote');
-	$tabla->fields["NumeLote"]["showOnForm"] = false;
-	$tabla->fields["NumeLote"]["showOnList"] = false;
+	$tabla->addField("NumeClie", "select", 0, "Cliente", true, false, false, true, '', '', 'clientes', 'NumeClie', 'NombClie');
+	$tabla->fields["NumeClie"]["showOnForm"] = false;
+	$tabla->fields["NumeClie"]["showOnList"] = false;
 
 	$tabla->addField("FechVenc", "date", 0, "Fecha de vencimiento");
 	$tabla->fields["FechVenc"]["showOnForm"] = false;
@@ -245,7 +336,7 @@
 	/**
 	 * CUOTASPAGOS
 	 */
-	$tabla = new CuotaPago("cuotaspagos", "cuotaspagos", "Pagos de la Cuota", "el pago", false, "", "fa-map-o");
+	$tabla = new CuotaPago("cuotaspagos", "cuotaspagos", "Pagos de la Cuota", "el pago", false, "", "fa-money");
 	$tabla->masterTable = "cuotas";
 	$tabla->masterFieldId = "CodiIden";
 	$tabla->masterFieldName = "NumeCuot";
@@ -312,70 +403,6 @@
 	$tabla->fields["NumeEsta"]["isHiddenInForm"] = true;
 
 	$config->tablas["cuotaspagos"] = $tabla;
-
-	/**
-	 * CLIENTES
-	 */
-	$tabla = new Tabla("clientes", "clientes", "Clientes", "el Cliente", false, "objeto/clientes/", "fa-id-card-o");
-	$tabla->labelField = "NombClie";
-	$tabla->masterTable = "contratos";
-	$tabla->masterFieldId = "NumeCont";
-	$tabla->masterFieldName = "NombCont";
-	
-
-	$tabla->searchFields = array("NombClie");
-
-	$tabla->btnList = [
-			array(
-				"id"=>"btnVerClie",
-				"titulo"=> 'Ficha',
-				"onclick"=> "verCliente",
-				"class"=> "btn-default"),
-	];
-
-	$tabla->jsFiles = ['admin/js/custom/clientes.js'];
-
-	$tabla->addField("NumeClie", "number", 0, "Numero", false, true, true);
-	$tabla->fields["NumeClie"]["isHiddenInForm"] = true;
-	$tabla->fields["NumeClie"]["isHiddenInList"] = true;
-
-	$tabla->addField("NombClie", "text", 200, "Nombre");
-
-	$tabla->addField("NumeTele", "text", 100, "Teléfono", false);
-	$tabla->fields["NumeTele"]["cssGroup"] = "form-group2";
-
-	$tabla->addField("NumeCelu", "text", 100, "Celular", false);
-	$tabla->fields["NumeCelu"]["cssGroup"] = "form-group2";
-
-	$tabla->addField("MailClie", "email", 200, "E-mail", false);
-
-	$tabla->addField("DireClie", "text", 200, "Dirección");
-	$tabla->fields["DireClie"]["cssGroup"] = "form-group2";
-	$tabla->fields["DireClie"]["isHiddenInList"] = true;
-
-	$tabla->addField("NombBarr", "text", 200, "Barrio", false);
-	$tabla->fields["NombBarr"]["cssGroup"] = "form-group2";
-	$tabla->fields["NombBarr"]["isHiddenInList"] = true;
-
-	$tabla->addField("NombLoca", "text", 200, "Localidad");
-	$tabla->fields["NombLoca"]["cssGroup"] = "form-group2";
-
-	$tabla->addField("NumeProv", "select", 200, "Provincia", true, false, false, true, '', '', 'provincias', 'NumeProv', 'NombProv', '', 'NombProv');
-	$tabla->fields["NumeProv"]["cssGroup"] = "form-group2";
-	$tabla->fields["NumeProv"]["isHiddenInList"] = true;
-
-	$tabla->addField("CodiPost", "text", 0, "Código postal", false);
-	$tabla->fields["CodiPost"]["isHiddenInList"] = true;
-
-	$tabla->addField("NumeVend", "select", 80, "Vendedor", true, false, false, true, '', '', 'vendedores', 'NumeVend', 'NombVend', '', 'NombVend');
-	$tabla->fields["NumeVend"]["isHiddenInList"] = true;
-
-	$tabla->addField("ObseClie", "textarea", 201, "Observaciones", false);
-	$tabla->fields["ObseClie"]["isHiddenInList"] = true;
-
-	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
-
-	$config->tablas["clientes"] = $tabla;
 
 	/**
 	 * CHEQUES
