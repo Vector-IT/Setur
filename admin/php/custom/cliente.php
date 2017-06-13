@@ -5,6 +5,9 @@ class Cliente extends Tabla
 {
 	public function insertar($datos) {
 		global $config;
+
+		$anticipo = $datos["Anticipo"];
+		unset($datos["Anticipo"]);
 		
 		$cantCuot = $datos["CantCuot"];
 		unset($datos["CantCuot"]);
@@ -22,7 +25,6 @@ class Cliente extends Tabla
 			return json_encode($result);
 		}
 		
-		
 		$result = parent::insertar($datos);
 		
 		$aux = json_decode($result);
@@ -30,30 +32,52 @@ class Cliente extends Tabla
 		
 		if ($aux->estado === true) {
 			$cuotas = $config->getTabla("cuotas");
+
+			//Creo el anticipo
+			$datos2 = array(
+				"CodiIden"=>"",
+				"NumeCuot"=>"0",
+				"NumeClie"=>$aux->id,
+				"NumeTipoCuot"=>"1",
+				"FechVenc"=>$fechVenc->format("Y-m-d"),
+				"ImpoCuot"=>$anticipo,
+				"ImpoOtro"=>"0",
+				"NumeEstaCuot"=>"1"
+			);
+
+			$cuotas->insertar($datos2);
 			
-			$datos2["CodiIden"] = "";
-			$datos2["NumeClie"] = $aux->id;
-			$datos2["FechVenc"] = $fechVenc->format("Y-m-d"); 
-			
+
 			$impoCont = $config->buscarDato("SELECT ImpoCont FROM contratos WHERE NumeCont = ". $datos["NumeCont"]);
 			
-			$datos2["ImpoCuot"] = number_format($impoCont / $cantCuot, 2, ".", "");
+			$saldo = number_format($impoCont - $anticipo, 2, ".", "");
+			$impoCuot = number_format($saldo / $cantCuot, 2, ".", "");
+
 			$datos2["ImpoOtro"] = "0";
 			$datos2["NumeEstaCuot"] = "1";
 			
 			for ($I = 1; $I <= $cantCuot; $I++) {
-				$datos2["NumeCuot"] = $I;
+				$datos2 = array(
+					"CodiIden"=>"",
+					"NumeCuot"=>$I,
+					"NumeClie"=>$aux->id,
+					"NumeTipoCuot"=>"2",
+					"FechVenc"=>$fechVenc->format("Y-m-d"),
+					"ImpoCuot"=>$impoCuot,
+					"ImpoOtro"=>"0",
+					"NumeEstaCuot"=>"1"
+				);
 				
 				$cuotas->insertar($datos2);
 				
 				$fechVenc->add(new \DateInterval("P1M"));
-				$datos2["FechVenc"] = $fechVenc->format("Y-m-d");
 			}
 		}
 		return $result;
 	}
 	
 	public function editar($datos) {
+		unset($datos["Anticipo"]);
 		unset($datos["CantCuot"]);
 		unset($datos["FechCuot"]);
 		
@@ -78,7 +102,7 @@ class Cliente extends Tabla
 		
 		switch ($post["field"]) {
 			case "Cuotas":
-				return $config->buscarDato("SELECT COUNT(*) FROM cuotas WHERE NumeClie = ". $post["dato"]);
+				return $config->buscarDato("SELECT COUNT(*) FROM cuotas WHERE NumeTipoCuot = 2 AND NumeClie = ". $post["dato"]);
 				
 				break;
 		}

@@ -202,7 +202,7 @@
 	/**
 	 * CLIENTES
 	 */
-	$tabla = new Cliente("clientes", "clientes", "Clientes", "el Cliente", false, "objeto/clientes/", "fa-id-card-o");
+	$tabla = new Cliente("pasajeros", "clientes", "Pasajeros", "el pasajero", false, "objeto/pasajeros/", "fa-id-card-o");
 	$tabla->labelField = "NombClie";
 	$tabla->masterTable = "contratos";
 	$tabla->masterFieldId = "NumeCont";
@@ -260,6 +260,9 @@
 	$tabla->addField("NumeVend", "select", 80, "Vendedor", true, false, false, true, '', '', 'vendedores', 'NumeVend', 'NombVend', '', 'NombVend');
 	$tabla->fields["NumeVend"]["isHiddenInList"] = true;
 	
+	$tabla->addField("Anticipo", "number", 0, "Anticipo");
+	$tabla->fields["Anticipo"]["showOnList"] = false;
+
 	$tabla->addField("CantCuot", "number", 0, "Cantidad de Cuotas");
 	$tabla->fields["CantCuot"]["showOnList"] = false;
 	$tabla->fields["CantCuot"]["cssGroup"] = "form-group2";
@@ -277,7 +280,7 @@
 	
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
 	
-	$config->tablas["clientes"] = $tabla;
+	$config->tablas["pasajeros"] = $tabla;
 	
 	/**
 	 * CUOTAS
@@ -306,6 +309,9 @@
 	$tabla->addField("NumeCuot", "number", 0, "Número", true, true);
 	$tabla->addField("FechCuot", "date", 0, "Fecha de creación");
 	$tabla->fields["FechCuot"]["showOnForm"] = false;
+
+	$tabla->addField("NumeTipoCuot", "select", 0, "Tipo", true, false, false, true, '', '', 'tiposcuotas', 'NumeTipoCuot', 'NombTipoCuot');
+	$tabla->fields["NumeTipoCuot"]["showOnForm"] = false;
 
 	$tabla->addField("NumeClie", "select", 0, "Cliente", true, false, false, true, '', '', 'clientes', 'NumeClie', 'NombClie');
 	$tabla->fields["NumeClie"]["showOnForm"] = false;

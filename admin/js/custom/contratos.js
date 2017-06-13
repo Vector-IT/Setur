@@ -1,3 +1,3 @@
 function verPasajeros(strID) {
-	location.href = "objeto/clientes&NumeCont=" + strID;
+	location.href = "objeto/pasajeros&NumeCont=" + strID;
 }
