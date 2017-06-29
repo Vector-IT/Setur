@@ -95,6 +95,11 @@
         if ($tabla->allowNew || $tabla->allowEdit) {
             $tabla->createForm();
         } else {
+			//Agrego el campo clave solamente para que sea necesario eliminar registros
+			if  ($tabla->allowDelete) {
+				$tabla->createFormHidden();
+			}
+
             //Botones opcionales
             if (count($tabla->btnForm) > 0) {
                 for ($I = 0; $I < count($tabla->btnForm); $I++) {

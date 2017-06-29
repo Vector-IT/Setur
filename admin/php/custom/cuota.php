@@ -8,8 +8,32 @@ class Cuota extends Tabla
         global $config;
         
         switch ($post['field']) {
-            case "ImpoPago":
-                return $config->buscarDato("SELECT COALESCE(SUM(ImpoPago), 0) FROM cuotaspagos WHERE NumeEsta = 1 AND CodiIden = ". $post["dato"]);
+            case "Pago":
+                $CodiIden = $post["dato"]["CodiIden"];
+                $NumeTipoPago = $post["dato"]["NumeTipoPago"];
+                $CodiCheq = $post["dato"]["CodiCheq"];
+                $ObseCuot = $post["dato"]["ObseCuot"];
+
+                $strSQL = "UPDATE cuotas SET NumeEstaCuot = 2, FechPago = SYSDATE(), NumeTipoPago = {$NumeTipoPago}";
+                if ($CodiCheq != '') {
+                    $strSQL.= ", CodiCheq = ". $CodiCheq;
+                }
+
+                if (trim($ObseCuot) != ''){
+                    $strSQL.= ", ObseCuot = '$ObseCuot'";
+                }
+
+                $strSQL.= " WHERE CodiIden = ". $CodiIden;
+
+                return $config->ejecutarCMD($strSQL);
+                break;
+            
+            case "AnularPago":
+                $CodiIden = $post["dato"]["CodiIden"];
+                
+                $strSQL = "UPDATE cuotas SET NumeEstaCuot = 1, FechPago = NULL, NumeTipoPago = NULL, CodiCheq = NULL WHERE CodiIden = ". $CodiIden;
+
+                return $config->ejecutarCMD($strSQL);
                 break;
         }
     }

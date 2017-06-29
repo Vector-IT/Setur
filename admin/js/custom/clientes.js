@@ -4,18 +4,38 @@ function verCuotas(strID) {
 
 function toggleCuotas(blnEstado) {
 	if (blnEstado) {
-		$("#Anticipo").prop("readonly", false);
-		$("#Ancticipo").parent().parent().show();
-
-		$("#CantCuot").prop("readonly", false);
+		$("#Anticipo").parent().parent().show();
 		$("#CantCuot").parent().parent().show();
-
 		$("#FechCuot").parent().parent().parent().show();
+
+		var fecha = moment().add(1, 'M');
+		$("#FechCuot").val(fecha.format("YYYY-MM") + "-01");
+		calcularCuotas();
 	} else {
-		$("#CantCuot").prop("readonly", true);
+		$("#Anticipo").parent().parent().hide();
 		$("#CantCuot").parent().parent().hide();
-		
 		$("#FechCuot").parent().parent().parent().hide();
 	}
-	
+}
+
+function calcularCuotas() {
+	$.ajax({
+		type: 'POST',
+		url: 'php/tablaHandler.php',
+		data: { 
+			operacion: '100', 
+			tabla: 'pasajeros', 
+			field: 'CalcCuotas', 
+			dato: {
+				"NumeCont": $("#NumeCont").val(),
+				"FechCuot": $("#FechCuot").val(),
+				"Anticipo": $("#Anticipo").val()
+			}
+		},
+		success: function(data) {
+			$("#CantCuot").html(data.valor);
+			
+		},
+		async:true
+	});
 }

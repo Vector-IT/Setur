@@ -66,6 +66,21 @@
 	$config->tablas["bancos"] = $tabla;
 
 	/**
+	 * JEFES DE VENTA
+	 */
+	$tabla = new Tabla("jefes", "jefes", "Jefes de Venta", "el Jefe de venta", true, "objeto/jefes/", "fa-male");
+	$tabla->labelField = "NombJefe";
+	$tabla->isSubItem = true;
+
+	$tabla->addField("NumeJefe", "number", 0, "Número", false, true, true);
+	$tabla->addField("NombJefe", "text", 200, "Nombre");
+	$tabla->fields["NombJefe"]["cssControl"] = "ucase";
+
+	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+
+	$config->tablas["jefes"] = $tabla;
+
+	/**
 	 * VENDEDORES
 	 */
 	$tabla = new Tabla("vendedores", "vendedores", "Vendedores", "el Vendedor", true, "objeto/vendedores/", "fa-male");
@@ -81,14 +96,27 @@
 	$config->tablas["vendedores"] = $tabla;
 
 	/**
+	 * PROMOTORES
+	 */
+	$tabla = new Tabla("promotores", "promotores", "Promotores", "el Promotor", true, "objeto/promotores/", "fa-male");
+	$tabla->labelField = "NombProm";
+	$tabla->isSubItem = true;
+
+	$tabla->addField("NumeProm", "number", 0, "Número", false, true, true);
+	$tabla->addField("NombProm", "text", 200, "Nombre");
+	$tabla->fields["NombProm"]["cssControl"] = "ucase";
+
+	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+
+	$config->tablas["promotores"] = $tabla;
+
+	/**
 	 * TIPOS DE PAGOS
 	 */
 	$tabla = new Tabla("tipospagos", "tipospagos", "Formas de Pago", "la Forma de Pago", true, "objeto/tipospagos/", "fa-credit-card");
 	$tabla->labelField = "NombTipoPago";
 	$tabla->isSubItem = true;
 	$tabla->allowDelete = false;
-	$tabla->allowEdit = false;
-	$tabla->allowNew = false;
 
 	$tabla->addField("NumeTipoPago", "number", 0, "Número", false, true, true);
 	$tabla->addField("NombTipoPago", "text", 100, "Nombre");
@@ -104,9 +132,6 @@
 	$tabla = new Tabla("provincias", "provincias", "Provincias", "la provincia", true, "objeto/provincias/", "fa-linode");
 	$tabla->labelField = "NombProv";
 	$tabla->isSubItem = true;
-	$tabla->allowDelete = false;
-	$tabla->allowEdit = false;
-	$tabla->allowNew = false;
 
 	$tabla->addFieldId("NumeProv", "Número");
 	$tabla->addField("NombProv", "text", 200, "Nombre");
@@ -173,7 +198,6 @@
 	 * CONTRATOS
 	 */
 	$tabla = new Tabla("contratos", "contratos", "Contratos", "el contrato", true, "objeto/contratos/", "fa-handshake-o", "FechSali DESC");
-	$tabla->labelField = "NombCont";
 	
 	$tabla->btnList = [
 			array(
@@ -184,32 +208,51 @@
 	];
 	
 	$tabla->jsFiles = ["admin/js/custom/contratos.js"];
+
+	$tabla->searchFields = [
+		array("name" => "NombCont", "operator" => "like", "join" => "AND"),
+		array("name" => "FechSali", "operator" => "=", "join" => "AND"),
+	];
 	
 	$tabla->addFieldId("NumeCont", "Número", true, true);
-	$tabla->addField("NumeCole", "select", 80, "Colegio", true, false, false, true, '', '', 'colegios', 'NumeCole', 'NombCole', 'NumeEsta = 1', 'NombCole');
 	$tabla->addField("NombCont", "text", 80, "Nombre");
+	$tabla->addField("NumeCole", "select", 80, "Colegio", true, false, false, true, '', '', 'colegios', 'NumeCole', 'NombCole', 'NumeEsta = 1', 'NombCole');
 	$tabla->addField("NumeRang", "select", 80, "Rango etario", true, false, false, true, '', '', 'rangos', 'NumeRang', 'NombRang', 'NumeEsta = 1', 'NombRang');
 	$tabla->addField("NumeDest", "select", 80, "Destino", true, false, false, true, '', '', 'destinos', 'NumeDest', 'NombDest', 'NumeEsta = 1', 'NombDest');
 	$tabla->addField("NumeTemp", "select", 80, "Temporada", true, false, false, true, '', '', 'temporadas', 'NumeTemp', 'NombTemp', 'NumeEsta = 1', 'NombTemp');
-	$tabla->addField("FechSali", "date", 0, "Fecha de salida");
+	$tabla->addField("FechSali", "date", 40, "Fecha de salida");
 	$tabla->addField("CantDias", "number", 0, "Cantidad de días");
 	$tabla->addField("ImpoCont", "number", 0, "Precio");
+	
+	$tabla->addField("NumeJefe", "select", 80, "Jefe de Ventas", true, false, false, true, '', '', 'jefes', 'NumeJefe', 'NombJefe', 'NumeEsta = 1', 'NombJefe');
+	$tabla->fields["NumeJefe"]["isHiddenInList"] = true;
+	
+	$tabla->addField("NumeVend", "select", 80, "Vendedor", true, false, false, true, '', '', 'vendedores', 'NumeVend', 'NombVend', 'NumeEsta = 1', 'NombVend');
+	$tabla->fields["NumeVend"]["isHiddenInList"] = true;
+	
+	$tabla->addField("NumeProm", "select", 80, "Promotor", true, false, false, true, '', '', 'promotores', 'NumeProm', 'NombProm', 'NumeEsta = 1', 'NombProm');
+	$tabla->fields["NumeProm"]["isHiddenInList"] = true;
+	
 	$tabla->addField("ObseCont", "textarea", 80, "Observaciones", false);
+	$tabla->fields["ObseCont"]["isHiddenInList"] = true;
+
+	$tabla->addFieldFileImage("FileCont", "PDF Contrato", 'FileCont', 'file', 80, false, true);
+	
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
 
 	$config->tablas["contratos"] = $tabla;
 
 	/**
-	 * CLIENTES
+	 * PASAJEROS
 	 */
 	$tabla = new Cliente("pasajeros", "clientes", "Pasajeros", "el pasajero", false, "objeto/pasajeros/", "fa-id-card-o");
 	$tabla->labelField = "NombClie";
 	$tabla->masterTable = "contratos";
 	$tabla->masterFieldId = "NumeCont";
-	$tabla->masterFieldName = "NombCont";
+	$tabla->masterFieldName = "NumeCont";
 	
 	
-	$tabla->searchFields = array("NombClie");
+	$tabla->searchFields = [array("name" => "NombClie", "operator" => "like", "join" => "AND")];
 	
 	$tabla->btnList = [
 			array(
@@ -257,19 +300,19 @@
 	$tabla->addField("CodiPost", "text", 0, "Código postal", false);
 	$tabla->fields["CodiPost"]["isHiddenInList"] = true;
 	
-	$tabla->addField("NumeVend", "select", 80, "Vendedor", true, false, false, true, '', '', 'vendedores', 'NumeVend', 'NombVend', '', 'NombVend');
-	$tabla->fields["NumeVend"]["isHiddenInList"] = true;
-	
-	$tabla->addField("Anticipo", "number", 0, "Anticipo");
+	$tabla->addField("Anticipo", "number", 0, "Seña");
 	$tabla->fields["Anticipo"]["showOnList"] = false;
+	$tabla->fields["Anticipo"]["onChange"] = "calcularCuotas();";
+	$tabla->fields["Anticipo"]["min"] = "0";
 
-	$tabla->addField("CantCuot", "number", 0, "Cantidad de Cuotas");
-	$tabla->fields["CantCuot"]["showOnList"] = false;
-	$tabla->fields["CantCuot"]["cssGroup"] = "form-group2";
-	
-	$tabla->addField("FechCuot", "date", 0, "Fecha de comienzo");
+	$tabla->addField("FechCuot", "date", 0, "Fecha de primer cuota");
 	$tabla->fields["FechCuot"]["showOnList"] = false;
 	$tabla->fields["FechCuot"]["cssGroup"] = "form-group2";
+	$tabla->fields["FechCuot"]["onChange"] = "calcularCuotas();";
+	
+	$tabla->addField("CantCuot", "select", 0, "Cantidad de Cuotas");
+	$tabla->fields["CantCuot"]["showOnList"] = false;
+	$tabla->fields["CantCuot"]["cssGroup"] = "form-group2";
 	
 	$tabla->addField("Cuotas", "calcfield", 0, "Cantidad de Cuotas");
 	$tabla->fields["Cuotas"]["txtAlign"] = "right";
@@ -294,13 +337,28 @@
 	$tabla->btnList = [
 		array(
 			"id"=>"btnPagos",
-			"titulo"=>"Ver Pagos",
+			"titulo"=>"Pagar",
 			"class"=>"btn-primary",
-			"onclick"=>"verPagos"
+			"onclick"=>"verPago"
 		)
 	];
 
-	$tabla->jsFiles = ["admin/js/custom/cuotas.js"];
+	$tabla->jsFiles = [
+		"admin/js/custom/cuotas.js",
+		"admin/js/custom/jquery.fancybox.min.js"
+	];
+
+	$tabla->jsOnList = "ctrlBotones();";
+	$tabla->jsOnLoad = "ctrlBotones();";
+	
+	$tabla->cssFiles = [
+		"admin/css/custom/jquery.fancybox.min.css"
+	];
+
+	$tabla->modalList = [
+		"php/modals/cuotapago.php",
+		"php/modals/cheques.php"
+	];
 
 	$tabla->allowNew = false;
 	$tabla->allowDelete = false;
@@ -328,12 +386,19 @@
 	$tabla->fields["ImpoOtro"]["step"] = "0.01";
 	$tabla->fields["ImpoOtro"]["txtAlign"] = "right";
 
-	$tabla->addField("ImpoPago", "calcfield", 0, "Importe Pagado");
-	$tabla->fields["ImpoPago"]["showOnForm"] = false;
-	$tabla->fields["ImpoPago"]["txtAlign"] = "right";
-
 	$tabla->addField("ObseCuot", "textarea", 200, "Observaciones", false);
 	$tabla->fields["ObseCuot"]["isHiddenInList"] = true;
+
+	$tabla->addField("NumeTipoPago", "select", 80, "Forma de pago", true, false, false, true, '1', '', 'tipospagos', 'NumeTipoPago', 'NombTipoPago', "NumeEsta = 1");
+	$tabla->fields["NumeTipoPago"]["showOnForm"] = false;
+	$tabla->fields["NumeTipoPago"]["onChange"] = "formasPago()";
+
+	$tabla->addField("CodiCheq", "select", 100, "Cheque", false, false, false, true, '', '', 'cheques', 'CodiCheq', 'NumeCheq', "NumeEsta = 1", "NumeCheq");
+	$tabla->fields["CodiCheq"]["showOnForm"] = false;
+	$tabla->fields["CodiCheq"]["onChange"] = "buscarImporte()";
+
+	$tabla->addField("FechPago", "datetime", 0, "Fecha de pago");
+	$tabla->fields["FechPago"]["showOnForm"] = false;
 
 	$tabla->addField("NumeEstaCuot", "select", 0, "Estado", true, true, false, true, '1', '', 'estadoscuotas', 'NumeEstaCuot', 'NombEstaCuot', '', 'NombEstaCuot');
 

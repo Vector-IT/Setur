@@ -101,6 +101,30 @@ class Cliente extends Tabla
 		global $config;
 		
 		switch ($post["field"]) {
+			case "CalcCuotas":
+				$numeCont = $post["dato"]["NumeCont"];
+				$fechCuot = $post["dato"]["FechCuot"];
+
+				$datos = $config->buscarDato("SELECT TIMESTAMPDIFF(MONTH, '{$fechCuot}', FechSali) CantCuot, ImpoCont FROM contratos WHERE NumeCont = ". $numeCont);
+
+				$saldo = $datos["ImpoCont"] - floatval($post["dato"]["Anticipo"]);
+
+				$strSalida = "";
+				if ($datos["CantCuot"] > 3) {
+					$strSalida.= '<option value="3">3 CUOTAS DE $'.number_format($saldo/3, 2).'</option>';
+				}
+				if ($datos["CantCuot"] > 6) {
+					$strSalida.= '<option value="6">6 CUOTAS DE $'.number_format($saldo/6, 2).'</option>';
+				}
+				if ($datos["CantCuot"] > 10) {
+					$strSalida.= '<option value="10">10 CUOTAS DE $'.number_format($saldo/10, 2).'</option>';
+				}
+
+				$strSalida.= '<option value="'.$datos["CantCuot"].'">'.$datos["CantCuot"].' CUOTAS DE $'.number_format($saldo/$datos["CantCuot"], 2).'</option>';
+
+				return $strSalida;
+				break;
+
 			case "Cuotas":
 				return $config->buscarDato("SELECT COUNT(*) FROM cuotas WHERE NumeTipoCuot = 2 AND NumeClie = ". $post["dato"]);
 				

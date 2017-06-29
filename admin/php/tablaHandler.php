@@ -86,7 +86,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             break;
         
-        //Listar
+		//Subir y Bajar de Orden
+        case "3":
+		case "4":
+			$datos = [];
+			foreach ($_POST as $name => $val) {
+				if (($name != 'operacion') && ($name != 'tabla')) {
+					$datos[$name] = $val;
+				}
+			}
+
+			$result = ejecutar($operacion, $tabla, $datos);
+            
+            if ($result["estado"] === true) {
+                exit("Datos actualizados!");
+            } else {
+                exit("Error al actualizar los datos.<br>".$result["estado"]);
+            }
+			break;
+		
+		//Listar
         case "10":
             $strFiltro = (isset($_POST["filtro"])? $_POST["filtro"]: "");
             
@@ -126,6 +145,12 @@ function ejecutar($operacion, $tabla, $datos)
                 $result["estado"] = "Operación inválida.";
             }
             break;
+		
+		//Subir y bajar el orden
+		case "3":
+		case "4":
+			$result = json_decode($tabla->subirBajar($operacion, $datos), true);
+			break;
     }
     
     return $result;

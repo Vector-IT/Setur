@@ -23,6 +23,7 @@ class Tabla
     public $icono;
     public $fields;
     public $order;
+	public $orderField;
 
     public $IDField;
     public $labelField;
@@ -88,6 +89,8 @@ class Tabla
         $this->url = $url;
         $this->icono = $icono;
         $this->order = $order;
+		
+		$this->orderField = '';
 
         $this->allowNew = $allowNew;
         $this->allowEdit = $allowEdit;
@@ -193,7 +196,8 @@ class Tabla
                 'mirrorFormat' => '',
                 'formatDb' => '',
                 'isMD5' => false,
-                'step' => "1"
+                'step' => "1",
+                'min' => ""
         );
 
         if ($isID) {
@@ -209,40 +213,41 @@ class Tabla
     public function addFieldId($name, $label = "", $isHiddenInList = false, $isHiddenInForm = false)
     {
         $this->fields[$name] = array (
-                        'name' => $name,
-                        'type' => 'number',
-                        'size' => 0,
-                        'label' => $label,
-                        'required' => false,
-                        'readOnly' => true,
-                        'isID' => true,
-                        'showOnList' => true,
-                        'value' => '',
-                        'cssControl' => '',
-                        'cssGroup' => '',
-                        'lookupTable' => '',
-                        'lookupFieldID' => '',
-                        'lookupFieldLabel' => '',
-                        'lookupConditions' => '',
-                        'lookupOrder' => '',
-                        'isHiddenInForm' => $isHiddenInForm,
-                        'isHiddenInList' => $isHiddenInList,
-                        'isMasterID' => false,
-                        'onChange' => '',
-                        'showOnForm' => true,
-                        'itBlank' => false,
-                        'itBlankText' => 'SELECCIONE...',
-                        'hoursDisabled' => '',
-                        'dtpOnRender' => '',
-                        'txtAlign' => 'left',
-                        'ruta' => '',
-                        'nomFileField' => '',
-                        'mirrorField' => '',
-                        'mirrorFormat' => '',
-                        'formatDb' => '',
-                        'isMD5' => false,
-                        'step' => "1"
-                );
+            'name' => $name,
+            'type' => 'number',
+            'size' => 0,
+            'label' => $label,
+            'required' => false,
+            'readOnly' => true,
+            'isID' => true,
+            'showOnList' => true,
+            'value' => '',
+            'cssControl' => '',
+            'cssGroup' => '',
+            'lookupTable' => '',
+            'lookupFieldID' => '',
+            'lookupFieldLabel' => '',
+            'lookupConditions' => '',
+            'lookupOrder' => '',
+            'isHiddenInForm' => $isHiddenInForm,
+            'isHiddenInList' => $isHiddenInList,
+            'isMasterID' => false,
+            'onChange' => '',
+            'showOnForm' => true,
+            'itBlank' => false,
+            'itBlankText' => 'SELECCIONE...',
+            'hoursDisabled' => '',
+            'dtpOnRender' => '',
+            'txtAlign' => 'left',
+            'ruta' => '',
+            'nomFileField' => '',
+            'mirrorField' => '',
+            'mirrorFormat' => '',
+            'formatDb' => '',
+            'isMD5' => false,
+            'step' => "1",
+            'min' => ""
+        );
 
         $this->IDField = $name;
     }
@@ -250,50 +255,51 @@ class Tabla
     /**
      * Agrega un campo a la tabla de tipo archivo o imagen
      * @param string $name: nombre del campo
+     * @param string $label: etiqueta del control al crear en un form
+     * @param string $ruta: ruta de guardado
      * @param number $type: 'file' o 'image'
      * @param number $size: tamaño del campo
-     * @param string $label: etiqueta del control al crear en un form
      * @param boolean $required: requerido
-     * @param string $ruta: ruta de guardado
      */
-    public function addFieldFileImage($name, $size = 0, $label = '', $ruta = '', $required = true, $isHiddenInList = false)
+    public function addFieldFileImage($name, $label, $ruta, $type = 'image', $size = 80, $required = true, $isHiddenInList = false)
     {
     
-                $this->fields[$name] = array (
-                        'name' => $name,
-                        'type' => 'image',
-                        'size' => $size,
-                        'label' => $label,
-                        'required' => $required,
-                        'readOnly' => false,
-                        'isID' => false,
-                        'showOnList' => true,
-                        'value' => '',
-                        'cssControl' => '',
-                        'cssGroup' => '',
-                        'lookupTable' => '',
-                        'lookupFieldID' => '',
-                        'lookupFieldLabel' => '',
-                        'lookupConditions' => '',
-                        'lookupOrder' => '',
-                        'isHiddenInForm' => false,
-                        'isHiddenInList' => $isHiddenInList,
-                        'isMasterID' => false,
-                        'onChange' => '',
-                        'showOnForm' => true,
-                        'itBlank' => false,
-                        'itBlankText' => 'SELECCIONE...',
-                        'hoursDisabled' => '',
-                        'dtpOnRender' => '',
-                        'txtAlign' => 'left',
-                        'ruta' => $ruta,
-                        'nomFileField' => '',
-                        'mirrorField' => '',
-                        'mirrorFormat' => '',
-                        'formatDb' => '',
-                        'isMD5' => false,
-                        'step' => "1"
-                );
+        $this->fields[$name] = array (
+            'name' => $name,
+            'type' => $type,
+            'size' => $size,
+            'label' => $label,
+            'required' => $required,
+            'readOnly' => false,
+            'isID' => false,
+            'showOnList' => true,
+            'value' => '',
+            'cssControl' => '',
+            'cssGroup' => '',
+            'lookupTable' => '',
+            'lookupFieldID' => '',
+            'lookupFieldLabel' => '',
+            'lookupConditions' => '',
+            'lookupOrder' => '',
+            'isHiddenInForm' => false,
+            'isHiddenInList' => $isHiddenInList,
+            'isMasterID' => false,
+            'onChange' => '',
+            'showOnForm' => true,
+            'itBlank' => false,
+            'itBlankText' => 'SELECCIONE...',
+            'hoursDisabled' => '',
+            'dtpOnRender' => '',
+            'txtAlign' => 'left',
+            'ruta' => $ruta,
+            'nomFileField' => '',
+            'mirrorField' => '',
+            'mirrorFormat' => '',
+            'formatDb' => '',
+            'isMD5' => false,
+            'step' => "1",
+            'min' => ""
+        );
     }
     
     public function createForm()
@@ -334,6 +340,23 @@ class Tabla
         echo $strSalida;
     }
 
+	public function createFormHidden() {
+		global $crlf;
+		
+		$strSalida = '';
+		$strSalida.= $crlf.'<form id="frm'. $this->tabladb .'" class="form-horizontal marginTop20 frmObjeto" method="post" onSubmit="return false;">';
+		$strSalida.= $crlf.'<input type="hidden" id="hdnTabla" value="'.$this->tabladb.'" />';
+		$strSalida.= $crlf.'<input type="hidden" id="hdnOperacion" value="0" />';
+
+		$fieldID = $this->fields[$this->IDField];
+		$fieldID["isHiddenInForm"] = true;
+
+		$strSalida.= $crlf . $this->createField($fieldID);
+
+		$strSalida.= '</form>';
+		echo $strSalida;
+	}
+
     protected function createField($field, $prefix = '')
     {
         global $crlf, $config;
@@ -348,7 +371,7 @@ class Tabla
 
 
         //if (!$field['isMasterID'] && $field['showOnForm']) {
-        if ($field['showOnForm']) {
+        if ($field['showOnForm'] || ($prefix == 'search')) {
             if (($field['isHiddenInForm'] || $field["type"] == 'hidden') && ($prefix != 'search')) {
                 $strSalida.= $crlf.'<input type="hidden" id="'.$fname.'" value="'.$field['value'].'" />';
             } else {
@@ -377,11 +400,11 @@ class Tabla
                     case 'email':
                     case 'password':
                     case 'color':
-                        $strSalida.= $crlf.'<input type="'.$field['type'].'" class="form-control input-sm '.$field['cssControl'].'" id="'.$fname.'" '. ($field['isID']?'disabled':'') .' '. ($field['required']?'required':'') .' '. ($field['size'] > 0?'size="'.$field['size'].'"':'') .' '. ($field['readOnly']?'readonly':'') .' '. ($field['value']!=''?'value="'.$field['value'].'"':'') .'/>';
+                        $strSalida.= $crlf.'<input type="'.$field['type'].'" class="form-control input-sm '.$field['cssControl'].'" id="'.$fname.'" '. ($field['isID']?'disabled':'') .' '. ($field['required']?'required':'') .' '. ($field['size'] > 0?'size="'.$field['size'].'"':'') .' '. ($field['readOnly']?'readonly':'') .' '. ($field['value']!=''?'value="'.$field['value'].'"':'') .' '. ($field['onChange'] !=''?'onchange="'.$field['onChange'].'"':'') .'/>';
                         break;
 
                     case 'number':
-                        $strSalida.= $crlf.'<input type="'.$field['type'].'" step="'.$field["step"].'" class="form-control input-sm '.$field['cssControl'].'" id="'.$fname.'" '. ($field['isID'] && $prefix!='search'?'disabled':'') .' '. ($field['required']?'required':'') .' '. ($field['size'] > 0?'size="'.$field['size'].'"':'') .' '. ($field['readOnly'] && $prefix!='search'?'readonly':'') .' '. ($field['value']!=''?'value="'.$field['value'].'"':'') .'/>';
+                        $strSalida.= $crlf.'<input type="'.$field['type'].'" step="'.$field["step"].'"'.($field["min"] != ""? ' min="'.$field["min"].'"': '').' class="form-control input-sm '.$field['cssControl'].'" id="'.$fname.'" '. ($field['isID'] && $prefix!='search'?'disabled':'') .' '. ($field['required']?'required':'') .' '. ($field['size'] > 0?'size="'.$field['size'].'"':'') .' '. ($field['readOnly'] && $prefix!='search'?'readonly':'') .' '. ($field['value']!=''?'value="'.$field['value'].'"':'') .' '. ($field['onChange'] !=''?'onchange="'.$field['onChange'].'"':'') .'/>';
                         break;
 
                     case 'file':
@@ -407,7 +430,7 @@ class Tabla
                         break;
 
                     case 'select':
-                        $strSalida.= $crlf.'<select class="form-control input-sm ucase '.$field['cssControl'].'" id="'.$fname.'" '. ($field['required']?'required':'') .' '. ($field['readOnly']?'readonly':'') .' '. ($field['onChange'] !=''?'onchange="'.$field['onChange'].'"':'') .'>';
+                        $strSalida.= $crlf.'<select class="form-control input-sm ucase '.$field['cssControl'].'" id="'.$fname.'" '. ($field['required']?'required':'') .' '. ($field['readOnly']?'readonly disabled':'') .' '. ($field['onChange'] !=''?'onchange="'.$field['onChange'].'"':'') .'>';
                         if ($field['lookupTable'] != '') {
                             $strSalida.= $crlf. $config->cargarCombo($field['lookupTable'], $field['lookupFieldID'], $field['lookupFieldLabel'], $field['lookupConditions'], $field['lookupOrder'], $field['value'], ($prefix == ''? $field['itBlank']: true), $field['itBlankText']);
                         }
@@ -445,6 +468,9 @@ class Tabla
                         $strSalida.= $crlf.'<div class="input-group date margin-bottom-sm inp'.$fname.'">';
                         $strSalida.= $crlf.'<input type="text" class="form-control input-sm '.$field['cssControl'].'" id="'.$fname.'"size="16" value="'.$field["value"].'" readonly />';
                         $strSalida.= $crlf.'<span class="input-group-addon add-on clickable"><i class="fa fa-calendar fa-fw"></i></span>';
+                        if ($prefix == 'search') {
+                            $strSalida.= $crlf.'<span class="input-group-addon add-on clickable" title="Limpiar"><i class="fa fa-times fa-fw"></i></span>';
+                        }
                         $strSalida.= $crlf.'</div>';
                         if ($field['mirrorField'] != '') {
                             $strSalida.= $crlf.'<input type="hidden" id="'. $field['mirrorField'] .'" />';
@@ -459,6 +485,7 @@ class Tabla
                             $strSalida.= $crlf.'	todayBtn: true,';
                             $strSalida.= $crlf.'	todayHighlight: false,';
                             $strSalida.= $crlf.'	minuteStep: 15,';
+                            $strSalida.= $crlf.'	fontAwesome: true,';
                             $strSalida.= $crlf.'	pickerPosition: "bottom-left",';
     
                             if ($field['mirrorField'] != '') {
@@ -488,6 +515,9 @@ class Tabla
                         $strSalida.= $crlf.'<div class="input-group date margin-bottom-sm inp'.$fname.'">';
                         $strSalida.= $crlf.'<input type="text" class="form-control input-sm '.$field['cssControl'].'" id="'.$fname.'"size="16" value="'.$field["value"].'" readonly />';
                         $strSalida.= $crlf.'<span class="input-group-addon add-on clickable"><i class="fa fa-calendar fa-fw"></i></span>';
+                        if ($prefix == 'search') {
+                            $strSalida.= $crlf.'<span class="input-group-addon add-on clickable" title="Limpiar"><i class="fa fa-times fa-fw"></i></span>';
+                        }
                         $strSalida.= $crlf.'</div>';
                         if (!$field["readOnly"]) {
                             $strSalida.= $crlf.'<script type="text/javascript">';
@@ -498,7 +528,8 @@ class Tabla
                             $strSalida.= $crlf.'	autoclose: true,';
                             $strSalida.= $crlf.'	todayBtn: true,';
                             $strSalida.= $crlf.'	todayHighlight: false,';
-                            $strSalida.= $crlf.'	pickerPosition: "bottom-left"';
+                            $strSalida.= $crlf.'	fontAwesome: true,';
+                            $strSalida.= $crlf.'	pickerPosition: "bottom-left",';
     
                             if ($field['mirrorField'] != '') {
                                 $strSalida.= $crlf.'	linkField: "'. $field['mirrorField'] .'",';
@@ -527,6 +558,9 @@ class Tabla
                         $strSalida.= $crlf.'<div class="input-group date margin-bottom-sm inp'.$fname.'">';
                         $strSalida.= $crlf.'<input type="text" class="form-control input-sm '.$field['cssControl'].'" id="'.$fname.'" size="16" value="'.$field["value"].'" readonly />';
                         $strSalida.= $crlf.'<span class="input-group-addon clickable"><i class="fa fa-calendar fa-fw"></i></span>';
+                        if ($prefix == 'search') {
+                            $strSalida.= $crlf.'<span class="input-group-addon add-on clickable" title="Limpiar"><i class="fa fa-times fa-fw"></i></span>';
+                        }
                         $strSalida.= $crlf.'</div>';
                         if (!$field["readOnly"]) {
                             $strSalida.= $crlf.'<script type="text/javascript">';
@@ -588,7 +622,7 @@ class Tabla
                         break;
 
                     default:
-                        $strSalida.= $crlf.'<input type="text" class="form-control input-sm '.$field['cssControl'].'" id="'.$fname.'" '. ($field['isID']?'disabled':'') .' '. ($field['required']?'required':'') .' '. ($field['size'] > 0?'size="'.$field['size'].'"':'') .' '. ($field['readOnly']?'readonly':'') .' value="'.$field["value"].'"/>';
+                        $strSalida.= $crlf.'<input type="text" class="form-control input-sm '.$field['cssControl'].'" id="'.$fname.'" '. ($field['isID']?'disabled':'') .' '. ($field['required']?'required':'') .' '. ($field['size'] > 0?'size="'.$field['size'].'"':'') .' '. ($field['readOnly']?'readonly':'') .' value="'.$field["value"].'" '. ($field['onChange'] !=''?'onchange="'.$field['onChange'].'"':'') .'/>';
                         break;
                 }
 
@@ -623,6 +657,15 @@ class Tabla
                     }
                 }
             }
+
+			if ($this->orderField != '') {
+				if ($strFields != '') {
+					$strFields.= $crlf.', '. $this->orderField;
+				} else {
+					$strFields.= $crlf. $this->orderField;
+				}
+			}
+
             $strSQL.= $strFields;
 
             $strSQL.= $crlf." FROM ". $this->tabladb;
@@ -638,6 +681,30 @@ class Tabla
                 foreach ($strFiltro as $key => $data) {
                     if ($filtro != "") {
                         $filtro.= $crlf." ".$data["join"];
+                    }
+
+                    switch ($data["type"]) {
+                        case 'text':
+                        case 'textarea':
+                            if (\strcasecmp($data["operator"], 'like') == 0) {
+                                $data["value"] = "'%". $data["value"] . "%'";
+                            }
+                            else {
+                                $data["value"] = "'". $data["value"] . "'";
+                            }
+                            break;
+
+                        case 'datetime':
+                            $data["value"] = "STR_TO_DATE('". $data["value"] . "', '%Y-%m-%d %H:%i')";
+                            break;
+
+                        case 'date':
+                            $data["value"] = "STR_TO_DATE('". $data["value"] . "', '%Y-%m-%d')";
+                            break;
+
+                        case 'time':
+                            $data["value"] = "STR_TO_DATE('". $data["value"] . "', '%H:%i')";
+                            break;
                     }
 
                     $filtro.= $crlf. $key ." ". $data["operator"] ." ". $data["value"];
@@ -693,6 +760,12 @@ class Tabla
                                 $strSalida.= $crlf.'<th></th>';
                             }
                         }
+
+						//Orden
+						if ($this->orderField != '') {
+							$strSalida.= $crlf.'<th></th>';
+							$strSalida.= $crlf.'<th></th>';
+						}
 
                         //Editar
                         if ($this->allowEdit) {
@@ -813,6 +886,13 @@ class Tabla
                                 }
                             }
 
+							if ($this->orderField != '') {
+								$strSalida.= $crlf.'<td class="text-center">';
+								$strSalida.= $crlf.'<button class="btn btn-sm btn-default" onclick="subir'. $this->tabladb .'(\''.$fila[$this->IDField].'\', \''.$fila[$this->orderField].'\')"><i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i></button>';
+								$strSalida.= $crlf.'<button class="btn btn-sm btn-default" onclick="bajar'. $this->tabladb .'(\''.$fila[$this->IDField].'\', \''.$fila[$this->orderField].'\')"><i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i></button>';
+								$strSalida.= $crlf.'</td>';
+							}
+
                             //Editar
                             if ($this->allowEdit) {
                                 $strSalida.= $crlf.'<td class="text-center"><button class="btn btn-sm btn-info" onclick="editar'. $this->tabladb .'(\''.$fila[$this->IDField].'\')"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Editar</button></td>';
@@ -887,7 +967,7 @@ class Tabla
             $strSalida.= $crlf.'<form id="frmSearch'. $this->tabladb .'" class="form-horizontal marginTop20" method="post" onSubmit="return false;" novalidate>';
 
             foreach ($this->searchFields as $field) {
-                $strSalida.= $crlf . $this->createField($this->fields[$field], 'search');
+                $strSalida.= $crlf . $this->createField($this->fields[$field["name"]], 'search');
             }
 
             $strSalida.= $crlf.'<div class="form-group">';
@@ -969,32 +1049,17 @@ class Tabla
         $strSalida.= $crlf.'	var filtros = {};';
         // $strSalida.= $crlf.'	var filtros = "";';
 
+		//Search Fields
         if (count($this->searchFields) > 0) {
             foreach ($this->searchFields as $field) {
-                $strSalida.= $crlf.'	if ($("#search-'.$field.'").val() != "") {';
-                $strSalida.= $crlf.'        filtros["'.$field.'"] = {';
-                $strSalida.= $crlf.'        	"type": "'.$this->fields[$field]["type"].'",';
-                $strSalida.= $crlf.'        	"operator":"=",';
-                $strSalida.= $crlf.'        	"join":"AND",';
-                $strSalida.= $crlf.'        	"value":$("#search-'.$field.'").val()';
+                $strSalida.= $crlf.'	if ($("#search-'.$field["name"].'").val() != "") {';
+                $strSalida.= $crlf.'        filtros["'.$field["name"].'"] = {';
+                $strSalida.= $crlf.'        	"type": "'.$this->fields[$field["name"]]["type"].'",';
+                $strSalida.= $crlf.'        	"operator":"'.$field["operator"].'",';
+                $strSalida.= $crlf.'        	"join":"'.$field["join"].'",';
+                $strSalida.= $crlf.'        	"value":$("#search-'.$field["name"].'").val()';
                 $strSalida.= $crlf.'        }';
                 $strSalida.= $crlf.'	}';
-
-                //$strSalida.= $crlf.'	if ($("#search-'.$field.'").val() != "") {';
-                // $strSalida.= $crlf.'        if (filtros != "") {';
-                //     $strSalida.= $crlf.'         filtros+= " AND ";';
-                // $strSalida.= $crlf.'        }';
-
-                // switch ($this->fields[$field]["type"]) {
-                //     case "text":
-                //         $strSalida.= $crlf.'        filtros+= "'.$field.' like \'%" + $("#search-'.$field.'").val() + "%\'";';
-                //         break;
-
-                //     default:
-                //         $strSalida.= $crlf.'		filtros+= "'.$field.' = \'" + $("#search-'.$field.'").val() + "\'";';
-                //         break;
-                // }
-                // $strSalida.= $crlf.'	}';
             }
 
             $strSalida.= $crlf.'';
@@ -1077,9 +1142,10 @@ class Tabla
 
             //Si hay form de busqueda lo oculto
             if (count($this->searchFields) > 0) {
-                $strSalida.= $crlf.'	$("#searchForm").fadeOut(function() {$("#frm'. $this->tabladb .'").fadeIn();});';
+                $strSalida.= $crlf.'	$("#searchForm").fadeOut(function() {';
+                $strSalida.= $crlf.'	    $("#frm'. $this->tabladb .'").fadeIn(function() {';
             } else {
-                $strSalida.= $crlf.'		$("#frm'. $this->tabladb .'").fadeIn();';
+                $strSalida.= $crlf.'		$("#frm'. $this->tabladb .'").fadeIn(function() {';
             }
 
             $strSalida.= $crlf.'		$("html, body").animate({';
@@ -1232,7 +1298,14 @@ class Tabla
                 }
             }
             $strSalida.= $crlf.'		'. $this->jsOnEdit;
-    
+            
+            if (count($this->searchFields) > 0) {
+                $strSalida.= $crlf.'	    });';
+                $strSalida.= $crlf.'	});';
+            } else {
+                $strSalida.= $crlf.'	    });';
+            }
+
             $strSalida.= $crlf.'	}';
     
             $strSalida.= $crlf.'	else {';
@@ -1242,6 +1315,7 @@ class Tabla
                 $strSalida.= $crlf.'	        $("#searchForm").fadeOut(function() {';
                 $strSalida.= $crlf.'			    $("#frm'. $this->tabladb .'").fadeIn(function() {';
                 $strSalida.= $crlf.'				    $("#frm'. $this->tabladb .'").find(".form-control[type!=\'hidden\'][disabled!=disabled][readonly!=readonly]:first").focus()';
+                $strSalida.= $crlf.'	                '. $this->jsOnNew;
                 $strSalida.= $crlf.'			    });';
                 $strSalida.= $crlf.'			});';
             } else {
@@ -1249,8 +1323,6 @@ class Tabla
                 $strSalida.= $crlf.'				$("#frm'. $this->tabladb .'").find(".form-control[type!=\'hidden\'][disabled!=disabled][readonly!=readonly]:first").focus()';
                 $strSalida.= $crlf.'			});';
             }
-
-            $strSalida.= $crlf.'	        '. $this->jsOnNew;
 
             $strSalida.= $crlf.'		}';
             $strSalida.= $crlf.'		else {';
@@ -1377,7 +1449,9 @@ class Tabla
             $strSalida.= $crlf.'				$("#divMsj").removeClass("alert-danger");';
             $strSalida.= $crlf.'				$("#divMsj").addClass("alert-success");';
             $strSalida.= $crlf.'				$(".selectpicker").selectpicker("deselectAll");';
-            $strSalida.= $crlf.'				editar'. $this->tabladb .'(-1);';
+            if ($this->allowNew || $this->allowEdit) {
+				$strSalida.= $crlf.'				editar'. $this->tabladb .'(-1);';
+			}
             $strSalida.= $crlf.'				listar'. $this->tabladb .'();';
             $strSalida.= $crlf.'			}';
             $strSalida.= $crlf.'			else {';
@@ -1452,6 +1526,80 @@ class Tabla
             $strSalida.= $crlf.'}';
         }
 
+		//Orden de las filas
+		if ($this->orderField != '') {
+			$strSalida.= $crlf.'';
+			$strSalida.= $crlf.'function subir'. $this->tabladb .'(strID, orden){';
+			$strSalida.= $crlf.'';
+			$strSalida.= $crlf.'	if (orden == "1") {return false}';;
+			$strSalida.= $crlf.'';
+			$strSalida.= $crlf.'	$.post("php/tablaHandler.php",';
+			$strSalida.= $crlf.'		{ "operacion": "3"';
+			$strSalida.= $crlf.'			, "tabla": "'.$this->name.'"';
+			$strSalida.= $crlf.'			, "ID": strID';
+			$strSalida.= $crlf.'			, "Orden": orden';
+
+			if ($this->masterFieldId != '' && isset($_GET[$this->masterFieldId])) {
+				$strSalida.= $crlf.'			, '. $this->masterFieldId .': "'. $_GET[$this->masterFieldId] .'"';
+			}
+			
+			$strSalida.= $crlf.'		},';
+			$strSalida.= $crlf.'		function(data) {';
+			$strSalida.= $crlf.'			$("#txtHint").html(data);';
+			$strSalida.= $crlf.'';
+			$strSalida.= $crlf.'			if (data.indexOf("Error") == -1) {';
+			$strSalida.= $crlf.'				$("#divMsj").removeClass("alert-danger");';
+			$strSalida.= $crlf.'				$("#divMsj").addClass("alert-success");';
+			$strSalida.= $crlf.'				listar'. $this->tabladb .'();';
+			$strSalida.= $crlf.'			}';
+			$strSalida.= $crlf.'			else {';
+			$strSalida.= $crlf.'				$("#divMsj").removeClass("alert-success");';
+			$strSalida.= $crlf.'				$("#divMsj").addClass("alert-danger");';
+			$strSalida.= $crlf.'			}';
+			$strSalida.= $crlf.'';
+			$strSalida.= $crlf.'			$("#actualizando").hide();';
+			$strSalida.= $crlf.'			$("#divMsj").show();';
+			$strSalida.= $crlf.'		}';
+			$strSalida.= $crlf.'	);';
+			$strSalida.= $crlf.'}';
+			
+			$strSalida.= $crlf.'';
+			
+			$strSalida.= $crlf.'function bajar'. $this->tabladb .'(strID, orden){';
+			$strSalida.= $crlf.'';
+			$strSalida.= $crlf.'	if (orden == $("#divDatos > table tr").length - 1) {return false}';;
+			$strSalida.= $crlf.'';
+			$strSalida.= $crlf.'	$.post("php/tablaHandler.php",';
+			$strSalida.= $crlf.'		{ operacion: "4"';
+			$strSalida.= $crlf.'			, "tabla": "'.$this->name.'"';
+			$strSalida.= $crlf.'			, "ID": strID';
+			$strSalida.= $crlf.'			, "Orden": orden';
+
+			if ($this->masterFieldId != '' && isset($_GET[$this->masterFieldId])) {
+				$strSalida.= $crlf.'			, '. $this->masterFieldId .': "'. $_GET[$this->masterFieldId] .'"';
+			}
+
+			$strSalida.= $crlf.'		},';
+			$strSalida.= $crlf.'		function(data) {';
+			$strSalida.= $crlf.'			$("#txtHint").html(data);';
+			$strSalida.= $crlf.'';
+			$strSalida.= $crlf.'			if (data.indexOf("Error") == -1) {';
+			$strSalida.= $crlf.'				$("#divMsj").removeClass("alert-danger");';
+			$strSalida.= $crlf.'				$("#divMsj").addClass("alert-success");';
+			$strSalida.= $crlf.'				listar'. $this->tabladb .'();';
+			$strSalida.= $crlf.'			}';
+			$strSalida.= $crlf.'			else {';
+			$strSalida.= $crlf.'				$("#divMsj").removeClass("alert-success");';
+			$strSalida.= $crlf.'				$("#divMsj").addClass("alert-danger");';
+			$strSalida.= $crlf.'			}';
+			$strSalida.= $crlf.'';
+			$strSalida.= $crlf.'			$("#actualizando").hide();';
+			$strSalida.= $crlf.'			$("#divMsj").show();';
+			$strSalida.= $crlf.'		}';
+			$strSalida.= $crlf.'	);';
+			$strSalida.= $crlf.'}';
+		}
+
         $strSalida.= $crlf.'</script>';
         $strSalida.= $crlf;
 
@@ -1466,14 +1614,28 @@ class Tabla
             $strValores = "";
             $strID = "";
 
-            $strSQL = "INSERT INTO ". $this->tabladb;
-
             //Registro el usuario
             if ($this->regUser) {
                 $strCampos = "NumeUser";
                 $strValores = $_SESSION["NumeUser"];
             }
 
+			//Registro el orden
+			if ($this->orderField != '') {
+				$strSQL = "SELECT COALESCE(MAX({$this->orderField}), 0) + 1 FROM ". $this->tabladb;
+				if (($this->masterTable != '') && ($this->masterFieldId != '') && isset($datos[$this->masterFieldId])) {
+					$strSQL.= " WHERE {$this->masterFieldId} = {$datos[$this->masterFieldId]}";
+				}
+				if ($strCampos != "") {
+					$strCampos.= ", ";
+					$strValores.= ", ";
+				}
+				$strCampos.= $this->orderField;
+				$strValores.= $config->buscarDato($strSQL);
+			}
+
+			$strSQL = "INSERT INTO ". $this->tabladb;
+			
             foreach ($datos as $name => $value) {
                 if (strcmp($this->IDField, $name) == 0) {
                     $value = $config->buscarDato("SELECT COALESCE(MAX($name), 0) + 1 Numero FROM $this->tabladb");
@@ -1628,6 +1790,52 @@ class Tabla
             return false;
         }
     }
+
+	function subirBajar($operacion, $datos) {
+		global $config;
+
+		$filtro = "";
+
+		if (($this->masterTable != '') && ($this->masterFieldId != '') && isset($datos[$this->masterFieldId])) {
+			$filtro = " AND {$this->masterFieldId} = {$datos[$this->masterFieldId]}";
+		}
+
+		//Actualizo el registro al que se le suplanata el orden
+		$strSQL = "SELECT {$this->IDField} FROM {$this->tabladb} WHERE {$this->orderField} = ". $datos["Orden"];
+		if ($operacion == "3") {
+			$strSQL.= "-1";
+		} else {
+			$strSQL.= "+1";
+		}
+		$strSQL.= $filtro;
+
+		$numeObjeOld = $config->buscarDato($strSQL);
+
+		$strSQL = "UPDATE ". $this->tabladb;
+		if ($operacion == "3") {
+			$strSQL.= " SET {$this->orderField} = {$this->orderField} + 1"; 
+		}
+		else {
+			$strSQL.= " SET {$this->orderField} = {$this->orderField} - 1"; 
+		}
+		$strSQL.= " WHERE {$this->IDField} = ". $numeObjeOld;
+		$config->ejecutarCMD($strSQL);
+
+		//Actualizo el registro actual
+		$strSQL = "UPDATE ". $this->tabladb;
+		if ($operacion == "3") {
+			$strSQL.= " SET {$this->orderField} = {$this->orderField} - 1"; 
+		}
+		else {
+			$strSQL.= " SET {$this->orderField} = {$this->orderField} + 1"; 
+		}
+		$strSQL.= " WHERE {$this->IDField} = ". $datos["ID"];
+
+		$result["estado"] = $config->ejecutarCMD($strSQL);
+		$result["id"] = $datos["ID"];
+
+		return json_encode($result);
+	}
 
     public function customFunc($post)
     {

@@ -1,21 +1,25 @@
 	<meta charset="UTF-8">
-	<meta name="author" content="Vector-IT" />
+	<meta name="author" content="Vector-IT - www.vector-it.com.ar" />
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 
-	<link rel="shortcut icon" href="img/favicon.png" type="image/png" />
-	<link rel="apple-touch-icon" href="img/favicon.png"/>
+	<link rel="shortcut icon" href="<?php echo $config->raiz ?>admin/img/favicon.png" type="image/png" />
+	<link rel="apple-touch-icon" href="<?php echo $config->raiz ?>admin/img/favicon.png"/>
 
 	<title><?php echo $config->titulo ?></title>
 
-	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<!-- JQUERY -->
+	<!--<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>-->
+	<script src="<?php echo $config->raiz ?>admin/js/jquery-1.12.4.min.js"></script>
 
 <?php if (isset($_SESSION['is_logged_in'])) { ?>
 	<script src="<?php echo $config->raiz ?>admin/js/vectorMenu.js"></script>
 <?php }?>
 
 	<!-- BOOTSTRAP -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+	<link rel="stylesheet" href="<?php echo $config->raiz ?>admin/css/bootstrap.min.css">
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+	<script src="<?php echo $config->raiz ?>admin/js/bootstrap.min.js"></script>
 
 	<?php
 		if (isset($_SESSION['DarkTheme']) || !isset($_SESSION['is_logged_in'])) {
@@ -42,6 +46,9 @@
 
 	<!-- CKEditor -->
 	<script src="<?php echo $config->raiz ?>admin/ckeditor/ckeditor.js"></script>
+
+	<!-- Moments.js -->
+	<script src="<?php echo $config->raiz ?>admin/js/moment-with-locales.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="<?php echo $config->raiz ?>admin/css/estilos.css">
 
