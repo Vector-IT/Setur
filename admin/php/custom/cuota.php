@@ -81,9 +81,9 @@ class Cuota extends Tabla
     {
         global $config, $crlf;
 
-        $cuotas = $config->buscarDato("SELECT SUM(ImpoCuot + ImpoOtro) FROM cuotas WHERE NumeClie = ".$_REQUEST[$this->masterFieldId]);
-        $pagos = $config->buscardato("SELECT SUM(ImpoPago) FROM cuotaspagos WHERE NumeEsta = 1 AND CodiIden IN (SELECT CodiIden FROM cuotas WHERE NumeClie = ".$_REQUEST[$this->masterFieldId].")");
-        $saldo = number_format($cuotas - $pagos, 2, ".", "");
+        $saldo = $config->buscarDato("SELECT SUM(ImpoCuot + ImpoOtro) FROM cuotas WHERE NumeEstaCuot <> 2 AND NumeClie = ".$_REQUEST[$this->masterFieldId]);
+        
+        $saldo = number_format($saldo, 2, ".", "");
 
         echo $crlf.'<h4 id="txtSaldo" class="well well-sm text-right">Saldo: <span class="txtRojo">$ '.$saldo.'</span></h4>';
         parent::listar($strFiltro, $conBotones, $btnList, $order);

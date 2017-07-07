@@ -109,18 +109,20 @@ class Cliente extends Tabla
 
 				$saldo = $datos["ImpoCont"] - floatval($post["dato"]["Anticipo"]);
 
+				$cantCuot = ($datos["CantCuot"] != ""? $datos["CantCuot"]: "1");
+
 				$strSalida = "";
-				if ($datos["CantCuot"] > 3) {
+				if ($cantCuot > 3) {
 					$strSalida.= '<option value="3">3 CUOTAS DE $'.number_format($saldo/3, 2).'</option>';
 				}
-				if ($datos["CantCuot"] > 6) {
+				if ($cantCuot > 6) {
 					$strSalida.= '<option value="6">6 CUOTAS DE $'.number_format($saldo/6, 2).'</option>';
 				}
-				if ($datos["CantCuot"] > 10) {
+				if ($cantCuot > 10) {
 					$strSalida.= '<option value="10">10 CUOTAS DE $'.number_format($saldo/10, 2).'</option>';
 				}
 
-				$strSalida.= '<option value="'.$datos["CantCuot"].'">'.$datos["CantCuot"].' CUOTAS DE $'.number_format($saldo/$datos["CantCuot"], 2).'</option>';
+				$strSalida.= '<option value="'.$cantCuot.'">'.$cantCuot.' CUOTAS DE $'.number_format($saldo/$cantCuot, 2).'</option>';
 
 				return $strSalida;
 				break;

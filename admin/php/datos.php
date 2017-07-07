@@ -7,6 +7,7 @@
 	require_once 'datosdb.php';
 	require_once 'vectorForms.php';
 
+	require_once 'custom/contrato.php';
 	require_once 'custom/cliente.php';
 	require_once 'custom/cuota.php';
 	require_once 'custom/cuotapago.php';
@@ -197,7 +198,7 @@
 	/**
 	 * CONTRATOS
 	 */
-	$tabla = new Tabla("contratos", "contratos", "Contratos", "el contrato", true, "objeto/contratos/", "fa-handshake-o", "FechSali DESC");
+	$tabla = new Contrato("contratos", "contratos", "Contratos", "el contrato", true, "objeto/contratos/", "fa-handshake-o", "FechSali DESC");
 	
 	$tabla->btnList = [
 			array(
@@ -237,6 +238,9 @@
 	$tabla->fields["ObseCont"]["isHiddenInList"] = true;
 
 	$tabla->addFieldFileImage("FileCont", "PDF Contrato", 'FileCont', 'file', 80, false, true);
+
+	$tabla->addField("CantPasa", "calcfield", 0, "Pasajeros / Activos");
+	$tabla->fields["CantPasa"]["txtAlign"] = "right";
 	
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
 
