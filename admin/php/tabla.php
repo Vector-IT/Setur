@@ -164,40 +164,42 @@ class Tabla
     ) {
 
         $this->fields[$name] = array (
-                'name' => $name,
-                'type' => $type,
-                'size' => $size,
-                'label' => $label,
-                'required' => $required,
-                'readOnly' => $readOnly,
-                'isID' => $isID,
-                'showOnList' => $showOnList,
-                'showOnForm' => $showOnForm,
-                'value' => $value,
-                'cssControl' => '',
-                'cssGroup' => $cssGroup,
-                'lookupTable' => $lookupTable,
-                'lookupFieldID' => $lookupFieldID,
-                'lookupFieldLabel' => $lookupFieldLabel,
-                'lookupConditions' => $lookupConditions,
-                'lookupOrder' => $lookupOrder,
-                'isHiddenInForm' => $isHiddenInForm,
-                'isHiddenInList' => $isHiddenInList,
-                'isMasterID' => $isMasterID,
-                'onChange' => $onChange,
-                'itBlank' => $itBlank,
-                'itBlankText' => 'SELECCIONE...',
-                'hoursDisabled' => '',
-                'dtpOnRender' => '',
-                'txtAlign' => 'left',
-                'ruta' => '',
-                'nomFileField' => '',
-                'mirrorField' => '',
-                'mirrorFormat' => '',
-                'formatDb' => '',
-                'isMD5' => false,
-                'step' => "1",
-                'min' => ""
+            'name' => $name,
+            'type' => $type,
+            'size' => $size,
+            'label' => $label,
+            'required' => $required,
+            'readOnly' => $readOnly,
+            'isID' => $isID,
+            'showOnList' => $showOnList,
+            'showOnForm' => $showOnForm,
+            'value' => $value,
+            'cssControl' => '',
+            'cssGroup' => $cssGroup,
+            'lookupTable' => $lookupTable,
+            'lookupFieldID' => $lookupFieldID,
+            'lookupFieldLabel' => $lookupFieldLabel,
+            'lookupConditions' => $lookupConditions,
+            'lookupOrder' => $lookupOrder,
+            'isHiddenInForm' => $isHiddenInForm,
+            'isHiddenInList' => $isHiddenInList,
+            'isMasterID' => $isMasterID,
+            'onChange' => $onChange,
+            'itBlank' => $itBlank,
+            'itBlankText' => 'SELECCIONE...',
+            'hoursDisabled' => '',
+            'dtpOnRender' => '',
+            'txtAlign' => 'left',
+            'ruta' => '',
+            'nomFileField' => '',
+            'mirrorField' => '',
+            'mirrorFormat' => '',
+            'formatDb' => '',
+            'isMD5' => false,
+            'step' => "1",
+            'min' => "",
+            'condFormat' => "",
+            'classFormat' => "",
         );
 
         if ($isID) {
@@ -246,7 +248,9 @@ class Tabla
             'formatDb' => '',
             'isMD5' => false,
             'step' => "1",
-            'min' => ""
+            'min' => "",
+            'condFormat' => "",
+            'classFormat' => "",
         );
 
         $this->IDField = $name;
@@ -298,7 +302,9 @@ class Tabla
             'formatDb' => '',
             'isMD5' => false,
             'step' => "1",
-            'min' => ""
+            'min' => "",
+            'condFormat' => "",
+            'classFormat' => "",
         );
     }
     
@@ -525,6 +531,50 @@ class Tabla
                             $strSalida.= $crlf.'	language: "es",';
                             $strSalida.= $crlf.'	format: "yyyy-mm-dd",';
                             $strSalida.= $crlf.'	minView: 2,';
+                            $strSalida.= $crlf.'	autoclose: true,';
+                            $strSalida.= $crlf.'	todayBtn: true,';
+                            $strSalida.= $crlf.'	todayHighlight: false,';
+                            $strSalida.= $crlf.'	fontAwesome: true,';
+                            $strSalida.= $crlf.'	pickerPosition: "bottom-left",';
+    
+                            if ($field['mirrorField'] != '') {
+                                $strSalida.= $crlf.'	linkField: "'. $field['mirrorField'] .'",';
+                                $strSalida.= $crlf.'	linkFormat: "'. $field['mirrorFormat'] .'",';
+                            }
+    
+                            if ($field['dtpOnRender'] != '') {
+                                $strSalida.= $crlf.'	onRender: function(date) {';
+                                $strSalida.= $crlf.'			return '. $field['dtpOnRender'];
+                                $strSalida.= $crlf.'		},';
+                            }
+    
+                            if ($field['onChange'] == '') {
+                                $strSalida.= $crlf.'	});';
+                            } else {
+                                $strSalida.= $crlf.'	}).on("changeDate", function(ev){';
+                                $strSalida.= $crlf.'		'. $field['onChange'];
+                                $strSalida.= $crlf.'	});';
+                            }
+    
+                            $strSalida.= $crlf.'</script>';
+                        }
+                        break;
+
+                    case 'month':
+                        $strSalida.= $crlf.'<div class="input-group date margin-bottom-sm inp'.$fname.'">';
+                        $strSalida.= $crlf.'<input type="text" class="form-control input-sm '.$field['cssControl'].'" id="'.$fname.'"size="16" value="'.$field["value"].'" readonly />';
+                        $strSalida.= $crlf.'<span class="input-group-addon add-on clickable"><i class="fa fa-calendar fa-fw"></i></span>';
+                        if ($prefix == 'search') {
+                            $strSalida.= $crlf.'<span class="input-group-addon add-on clickable" title="Limpiar"><i class="fa fa-times fa-fw"></i></span>';
+                        }
+                        $strSalida.= $crlf.'</div>';
+                        if (!$field["readOnly"]) {
+                            $strSalida.= $crlf.'<script type="text/javascript">';
+                            $strSalida.= $crlf.'$(".inp'.$fname.'").datetimepicker({';
+                            $strSalida.= $crlf.'	language: "es",';
+                            $strSalida.= $crlf.'	format: "yyyy-mm",';
+                            $strSalida.= $crlf.'	minView: 3,';
+                            $strSalida.= $crlf.'	startView: 3,';
                             $strSalida.= $crlf.'	autoclose: true,';
                             $strSalida.= $crlf.'	todayBtn: true,';
                             $strSalida.= $crlf.'	todayHighlight: false,';
@@ -803,7 +853,7 @@ class Tabla
                                     switch ($field["type"]) {
                                         case 'select':
                                         case 'selectmultiple':
-                                            $strSalida.= $crlf.'<td class="ucase text-'. $field['txtAlign'] .' '. $field['cssControl'] .'">';
+                                            $strSalida.= $crlf.'<td class="ucase text-'. $field['txtAlign'] .' '. (eval($field["condFormat"])? $field["classFormat"]: '') .'">';
                                             if ($fila[$field['name']] != '') {
                                                 $strSalida.= $crlf. $config->buscarDato("SELECT ".$field['lookupFieldLabel']." FROM ".$field['lookupTable']." WHERE ".$field['lookupFieldID']." = ".$fila[$field['name']]);
                                             } else {
@@ -816,7 +866,7 @@ class Tabla
                                             break;
 
                                         case 'calcfield':
-                                            $strSalida.= $crlf.'<td class="text-'. $field['txtAlign'] .' '. $field['cssControl'] .'">';
+                                            $strSalida.= $crlf.'<td class="text-'. $field['txtAlign'] .' '. (eval($field["condFormat"])? $field["classFormat"]: '') .'">';
 
                                             $post['field'] = $field['name'];
                                             $post['dato'] = $fila[$this->IDField];
@@ -854,7 +904,7 @@ class Tabla
                                             break;
                                             
                                         default:
-                                            $strSalida.= $crlf.'<td class="text-'. $field['txtAlign'] .' '. $field['cssControl'] .'" id="'.$field['name'] . $fila[$this->IDField].'">'.$fila[$field['name']].'</td>';
+                                            $strSalida.= $crlf.'<td class="text-'. $field['txtAlign'] .' '. (eval($field["condFormat"])? $field["classFormat"]: '') .'" id="'.$field['name'] . $fila[$this->IDField].'">'.$fila[$field['name']].'</td>';
                                             break;
                                     }
 

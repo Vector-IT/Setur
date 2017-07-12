@@ -17,6 +17,7 @@
 	$config = new VectorForms($dbhost, $dbschema, $dbuser, $dbpass, $raiz, "Se-tur", "img/logo.png", false);
 	$config->tbLogin = 'usuarios';
 	$config->theme = 'dark';
+	$config->cssFiles = ['admin/css/custom/custom.css'];
 
 	/**
 	 * Items de menu adicionales
@@ -48,6 +49,8 @@
 	$tabla->fields["NombPass"]['isMD5'] = true;
 	$tabla->addField("NumeCarg", "select", 0, "Cargo", true, false, false, true, '', '', 'cargos', 'NumeCarg', 'NombCarg', '', 'NombCarg');
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["usuarios"] = $tabla;
 
@@ -63,6 +66,8 @@
 	$tabla->fields["NombBanc"]["cssControl"] = "ucase";
 
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["bancos"] = $tabla;
 
@@ -78,6 +83,8 @@
 	$tabla->fields["NombJefe"]["cssControl"] = "ucase";
 
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["jefes"] = $tabla;
 
@@ -93,6 +100,8 @@
 	$tabla->fields["NombVend"]["cssControl"] = "ucase";
 
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["vendedores"] = $tabla;
 
@@ -108,6 +117,8 @@
 	$tabla->fields["NombProm"]["cssControl"] = "ucase";
 
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["promotores"] = $tabla;
 
@@ -124,6 +135,8 @@
 	$tabla->fields["NombTipoPago"]["cssControl"] = "ucase";
 
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["tipospagos"] = $tabla;
 
@@ -150,6 +163,8 @@
 	$tabla->addField("NombDest", "text", 80, "Nombre");
 	$tabla->fields["NombDest"]["cssControl"] = "ucase";
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["destinos"] = $tabla;
 
@@ -164,6 +179,8 @@
 	$tabla->addField("NombRang", "text", 80, "Nombre");
 	$tabla->fields["NombRang"]["cssControl"] = "ucase";
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["rangos"] = $tabla;
 
@@ -178,6 +195,8 @@
 	$tabla->addField("NombTemp", "text", 80, "Nombre");
 	$tabla->fields["NombTemp"]["cssControl"] = "ucase";
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["temporadas"] = $tabla;
 
@@ -192,13 +211,15 @@
 	$tabla->addField("NombCole", "text", 80, "Nombre");
 	$tabla->fields["NombCole"]["cssControl"] = "ucase";
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["colegios"] = $tabla;
 
 	/**
 	 * CONTRATOS
 	 */
-	$tabla = new Contrato("contratos", "contratos", "Contratos", "el contrato", true, "objeto/contratos/", "fa-handshake-o", "FechSali DESC");
+	$tabla = new Contrato("contratos", "contratos", "Contratos", "el contrato", true, "objeto/contratos/", "fa-handshake-o", "NombCont");
 	
 	$tabla->btnList = [
 			array(
@@ -224,7 +245,15 @@
 	$tabla->addField("FechSali", "date", 40, "Fecha de salida");
 	$tabla->addField("CantDias", "number", 0, "Cantidad de días");
 	$tabla->addField("ImpoCont", "number", 0, "Precio");
-	
+
+	$tabla->addField("PorcVenc2", "number", 0, "Porcentaje de recargo 2do vencimiento");
+	$tabla->fields["PorcVenc2"]["isHiddenInList"] = true;
+	$tabla->fields["PorcVenc2"]["step"] = "0.1";
+
+	$tabla->addField("PorcReca", "number", 0, "Porcentaje de recargo en mora");
+	$tabla->fields["PorcReca"]["isHiddenInList"] = true;
+	$tabla->fields["PorcReca"]["step"] = "0.1";
+
 	$tabla->addField("NumeJefe", "select", 80, "Jefe de Ventas", true, false, false, true, '', '', 'jefes', 'NumeJefe', 'NombJefe', 'NumeEsta = 1', 'NombJefe');
 	$tabla->fields["NumeJefe"]["isHiddenInList"] = true;
 	
@@ -241,8 +270,11 @@
 
 	$tabla->addField("CantPasa", "calcfield", 0, "Pasajeros / Activos");
 	$tabla->fields["CantPasa"]["txtAlign"] = "right";
+	$tabla->fields["CantPasa"]["showOnForm"] = false;
 	
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["contratos"] = $tabla;
 
@@ -309,7 +341,7 @@
 	$tabla->fields["Anticipo"]["onChange"] = "calcularCuotas();";
 	$tabla->fields["Anticipo"]["min"] = "0";
 
-	$tabla->addField("FechCuot", "date", 0, "Fecha de primer cuota");
+	$tabla->addField("FechCuot", "month", 0, "Fecha de primer cuota");
 	$tabla->fields["FechCuot"]["showOnList"] = false;
 	$tabla->fields["FechCuot"]["cssGroup"] = "form-group2";
 	$tabla->fields["FechCuot"]["onChange"] = "calcularCuotas();";
@@ -326,6 +358,8 @@
 	$tabla->fields["ObseClie"]["isHiddenInList"] = true;
 	
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 	
 	$config->tablas["pasajeros"] = $tabla;
 	
@@ -344,7 +378,13 @@
 			"titulo"=>"Pagar",
 			"class"=>"btn-primary",
 			"onclick"=>"verPago"
-		)
+		),
+		array(
+			"id"=>"btnActualizar",
+			"titulo"=>"Actualizar",
+			"class"=>"btn-primary",
+			"onclick"=>"Actualizar"
+		),
 	];
 
 	$tabla->jsFiles = [
@@ -370,6 +410,7 @@
 	$tabla->addFieldId("CodiIden", "Código", true, true);
 	$tabla->addField("NumeCuot", "number", 0, "Número", true, true);
 	$tabla->addField("FechCuot", "date", 0, "Fecha de creación");
+	$tabla->fields["FechCuot"]["isHiddenInList"] = true;
 	$tabla->fields["FechCuot"]["showOnForm"] = false;
 
 	$tabla->addField("NumeTipoCuot", "select", 0, "Tipo", true, false, false, true, '', '', 'tiposcuotas', 'NumeTipoCuot', 'NombTipoCuot');
@@ -379,8 +420,11 @@
 	$tabla->fields["NumeClie"]["showOnForm"] = false;
 	$tabla->fields["NumeClie"]["showOnList"] = false;
 
-	$tabla->addField("FechVenc", "date", 0, "Fecha de vencimiento");
+	$tabla->addField("FechVenc", "date", 0, "1er vencimiento");
 	$tabla->fields["FechVenc"]["showOnForm"] = false;
+
+	$tabla->addField("FechVenc2", "date", 0, "2do vencimiento");
+	$tabla->fields["FechVenc2"]["showOnForm"] = false;
 
 	$tabla->addField("ImpoCuot", "number", 0, "Importe de cuota pura", true, true);
 	$tabla->fields["ImpoCuot"]["step"] = "0.01";
@@ -404,80 +448,19 @@
 	$tabla->addField("FechPago", "datetime", 0, "Fecha de pago");
 	$tabla->fields["FechPago"]["showOnForm"] = false;
 
-	$tabla->addField("NumeEstaCuot", "select", 0, "Estado", true, true, false, true, '1', '', 'estadoscuotas', 'NumeEstaCuot', 'NombEstaCuot', '', 'NombEstaCuot');
+	$tabla->addField("CodiBarr", "text", 0, "Codigo de barras");
+	$tabla->fields["CodiBarr"]["showOnForm"] = false;
+	$tabla->fields["CodiBarr"]["showOnList"] = false;
+
+	//$tabla->addField("NumeEstaCuot", "select", 0, "Estado", true, true, false, true, '1', '', 'estadoscuotas', 'NumeEstaCuot', 'NombEstaCuot', '', 'NombEstaCuot');
+	$tabla->addField("NumeEstaCuot", "number", 0, "Estado");
+	$tabla->fields["NumeEstaCuot"]["isHiddenInForm"] = true;
+	$tabla->fields["NumeEstaCuot"]["isHiddenInList"] = true;
+
+	$tabla->addField("NombEstaCuot", "calcfield", 0, "Estado");
+	$tabla->fields["NombEstaCuot"]["showOnForm"] = false;
 
 	$config->tablas["cuotas"] = $tabla;
-
-	/**
-	 * CUOTASPAGOS
-	 */
-	$tabla = new CuotaPago("cuotaspagos", "cuotaspagos", "Pagos de la Cuota", "el pago", false, "", "fa-money");
-	$tabla->masterTable = "cuotas";
-	$tabla->masterFieldId = "CodiIden";
-	$tabla->masterFieldName = "NumeCuot";
-	$tabla->allowEdit = false;
-	$tabla->allowDelete = false;
-
-	$tabla->btnForm = [
-		array(
-			"titulo"=> '<i class="fa fa-credit-card fa-fw" aria-hidden="true"></i> Cheques',
-			"class"=> 'btn-primary',
-			"onclick"=> "abrirCheques();"
-		)
-	];
-
-	$tabla->btnList = [
-		array(
-			"id"=>'btnCambiarEstado',
-			"titulo"=>"Cambiar Estado",
-			"class"=>"btn-danger",
-			"onclick"=>"cambiarEstado"
-		)
-	];
-
-	$tabla->modalList = ["php/modals/cheques.php"];
-
-	$tabla->jsFiles = [
-		"admin/js/custom/cuotaspagos.js",
-		"admin/js/custom/jquery.fancybox.min.js"
-	];
-
-	$tabla->jsOnLoad = "afterLoad();";
-	$tabla->jsOnList = "afterList();";
-
-	$tabla->cssFiles = [
-		"admin/css/custom/jquery.fancybox.min.css"
-	];
-
-	$tabla->addFieldId("NumePago", "NumePago", false, false);
-	$tabla->fields["NumePago"]["isHiddenInForm"] = true;
-	$tabla->fields["NumePago"]["isHiddenInList"] = true;
-
-	$tabla->addField("CodiIden", "number");
-	$tabla->fields["CodiIden"]["isHiddenInForm"] = true;
-	$tabla->fields["CodiIden"]["isHiddenInList"] = true;
-
-	$tabla->addField("FechPago", "datetime", 0, "Fecha");
-	$tabla->fields["FechPago"]["showOnForm"] = false;
-
-	$tabla->addField("NumeTipoPago", "select", 80, "Forma de pago", true, false, false, true, '1', '', 'tipospagos', 'NumeTipoPago', 'NombTipoPago', "NumeEsta = 1");
-	$tabla->fields["NumeTipoPago"]["onChange"] = "formasPago()";
-
-	$tabla->addField("CodiCheq", "select", 100, "Cheque", false, false, false, true, '', '', 'cheques', 'CodiCheq', 'NumeCheq', "NumeEsta = 1", "NumeCheq");
-	$tabla->fields["CodiCheq"]["itBlank"] = true;
-	$tabla->fields["CodiCheq"]["onChange"] = "buscarImporte()";
-
-	$tabla->addField("ImpoPago", "number", 0, "Importe");
-	$tabla->fields["ImpoPago"]["step"] = "0.01";
-	$tabla->fields["ImpoPago"]["txtAlign"] = "right";
-
-	$tabla->addField("ObsePago", "textarea", 200, "Observaciones", false);
-	$tabla->fields["ObsePago"]["isHiddenInList"] = true;
-
-	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
-	$tabla->fields["NumeEsta"]["isHiddenInForm"] = true;
-
-	$config->tablas["cuotaspagos"] = $tabla;
 
 	/**
 	 * CHEQUES
@@ -597,6 +580,8 @@
 	$tabla->fields["FooterEsMoneda"]["isHiddenInList"] = true;
 
 	$tabla->addField("NumeEsta", "select", 0, "Estado", true, false, false, true, '1', '', 'estados', 'NumeEsta', 'NombEsta', '', 'NombEsta');
+	$tabla->fields["NumeEsta"]["condFormat"] = 'return ($fila[$field["name"]] == 0);';
+	$tabla->fields["NumeEsta"]["classFormat"] = 'txtRed';
 
 	$config->tablas["reportes"] = $tabla;
 

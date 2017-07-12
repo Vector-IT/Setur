@@ -12,10 +12,13 @@ class Cliente extends Tabla
 		$cantCuot = $datos["CantCuot"];
 		unset($datos["CantCuot"]);
 		
+		$datos["FechCuot"] = $datos["FechCuot"]."-20";
 		$fechVenc = new \DateTime($datos["FechCuot"]);
+		$fechFina = new \DateTime($datos["FechCuot"]);
+		$fechFina->add(new \DateInterval("P".$cantCuot."M"));
+
 		unset($datos["FechCuot"]);
 
-		$fechFina = $fechVenc->add(new \DateInterval("P".$cantCuot."M"));
 		$fechSali = $config->buscarDato("SELECT FechSali FROM contratos WHERE NumeCont = ". $datos["NumeCont"]);
 		$fechSali = new \DateTime($fechSali);
 
@@ -34,19 +37,21 @@ class Cliente extends Tabla
 			$cuotas = $config->getTabla("cuotas");
 
 			//Creo el anticipo
-			$datos2 = array(
-				"CodiIden"=>"",
-				"NumeCuot"=>"0",
-				"NumeClie"=>$aux->id,
-				"NumeTipoCuot"=>"1",
-				"FechVenc"=>$fechVenc->format("Y-m-d"),
-				"ImpoCuot"=>$anticipo,
-				"ImpoOtro"=>"0",
-				"NumeEstaCuot"=>"1"
-			);
+			if ($anticipo > 0) {
+				$datos2 = array(
+					"CodiIden"=>"",
+					"NumeCuot"=>"0",
+					"NumeClie"=>$aux->id,
+					"NumeTipoCuot"=>"1",
+					"FechVenc"=>$fechVenc->format("Y-m-d"),
+					"FechVenc2"=>$fechVenc->format("Y-m-t"),
+					"ImpoCuot"=>$anticipo,
+					"ImpoOtro"=>"0",
+					"NumeEstaCuot"=>"1"
+				);
 
-			$cuotas->insertar($datos2);
-			
+				$cuotas->insertar($datos2);
+			}
 
 			$impoCont = $config->buscarDato("SELECT ImpoCont FROM contratos WHERE NumeCont = ". $datos["NumeCont"]);
 			
@@ -63,6 +68,7 @@ class Cliente extends Tabla
 					"NumeClie"=>$aux->id,
 					"NumeTipoCuot"=>"2",
 					"FechVenc"=>$fechVenc->format("Y-m-d"),
+					"FechVenc2"=>$fechVenc->format("Y-m-t"),
 					"ImpoCuot"=>$impoCuot,
 					"ImpoOtro"=>"0",
 					"NumeEstaCuot"=>"1"
@@ -103,7 +109,7 @@ class Cliente extends Tabla
 		switch ($post["field"]) {
 			case "CalcCuotas":
 				$numeCont = $post["dato"]["NumeCont"];
-				$fechCuot = $post["dato"]["FechCuot"];
+				$fechCuot = $post["dato"]["FechCuot"]."-20";
 
 				$datos = $config->buscarDato("SELECT TIMESTAMPDIFF(MONTH, '{$fechCuot}', FechSali) CantCuot, ImpoCont FROM contratos WHERE NumeCont = ". $numeCont);
 

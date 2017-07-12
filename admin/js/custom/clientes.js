@@ -4,16 +4,22 @@ function verCuotas(strID) {
 
 function toggleCuotas(blnEstado) {
 	if (blnEstado) {
+		habilitar($("#Anticipo"));
 		$("#Anticipo").parent().parent().show();
+		habilitar($("#CantCuot"));
 		$("#CantCuot").parent().parent().show();
+		habilitar($("#FechCuot"));
 		$("#FechCuot").parent().parent().parent().show();
 
 		var fecha = moment().add(1, 'M');
-		$("#FechCuot").val(fecha.format("YYYY-MM") + "-01");
+		$("#FechCuot").val(fecha.format("YYYY-MM"));
 		calcularCuotas();
 	} else {
+		deshabilitar($("#Anticipo"));
 		$("#Anticipo").parent().parent().hide();
+		deshabilitar($("#CantCuot"));
 		$("#CantCuot").parent().parent().hide();
+		deshabilitar($("#FechCuot"));
 		$("#FechCuot").parent().parent().parent().hide();
 	}
 }

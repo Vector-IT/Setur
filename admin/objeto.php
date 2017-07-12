@@ -15,6 +15,11 @@
 	    die();
 	}
 	    
+	if ($_SESSION['is_logged_in'] !== 1) {
+	    header($urlLogin);
+	    die();
+	}
+	    
 	if (isset($_REQUEST["tb"])) {
 	    if ($_REQUEST["tb"] != "") {
 	        if (isset($config->tablas[$_REQUEST["tb"]])) {

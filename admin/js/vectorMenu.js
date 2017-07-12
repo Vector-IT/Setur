@@ -34,6 +34,14 @@ $(document).ready(function() {
 	});
 });
 
+function habilitar($input) {
+	$input.prop('disabled', false);
+}
+
+function deshabilitar($input) {
+	$input.prop('disabled', true);
+}
+
 function getVariable(variable){
 
     var tipo = typeof variable;

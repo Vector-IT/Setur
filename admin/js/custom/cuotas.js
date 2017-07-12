@@ -150,3 +150,32 @@ function anularPago(strID) {
         });
     }
 }
+
+function Actualizar(strID) {
+    $.ajax({
+        type: 'POST',
+        url: 'php/tablaHandler.php',
+        data: { 
+            operacion: '100', 
+            tabla: 'cuotas', 
+            field: 'ActualizarImporte', 
+            dato:  strID,
+        },
+        success: function(data) {
+            $("#actualizando").hide();
+            if (data.valor === true) {
+                $("#divMsj").removeClass("alert-danger");
+                $("#divMsj").addClass("alert-success");
+                $("#txtHint").html("Datos actualizados!");
+
+                listarcuotas();
+            } else {
+                $("#divMsj").addClass("alert-danger");
+                $("#divMsj").removeClass("alert-success");
+                $("#txtHint").html(data.valor);
+            }
+            $("#divMsj").show();
+        },
+        async:true
+    });
+}
