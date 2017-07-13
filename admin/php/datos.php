@@ -24,6 +24,7 @@
 	 */
 	$config->menuItems = [
 			new MenuItem("Configuraciones", '', '', 'fa-cogs', 1, true, false),
+			new MenuItem("Cargar pagos", 'cargarPagos.php', '', 'fa-money', 2),
 			new MenuItem("Reportes", 'reportes.php', '', 'fa-slideshare', '', false, false),
 			new MenuItem("Salir del Sistema", 'logout.php', '', 'fa-sign-out', '', false, false)
 	];
@@ -445,12 +446,27 @@
 	$tabla->fields["CodiCheq"]["showOnForm"] = false;
 	$tabla->fields["CodiCheq"]["onChange"] = "buscarImporte()";
 
-	$tabla->addField("FechPago", "datetime", 0, "Fecha de pago");
-	$tabla->fields["FechPago"]["showOnForm"] = false;
-
 	$tabla->addField("CodiBarr", "text", 0, "Codigo de barras");
 	$tabla->fields["CodiBarr"]["showOnForm"] = false;
 	$tabla->fields["CodiBarr"]["showOnList"] = false;
+
+	$tabla->addField("TerminalID", "text", 0);
+	$tabla->fields["TerminalID"]["showOnForm"] = false;
+	$tabla->fields["TerminalID"]["showOnList"] = false;
+
+	$tabla->addField("TerminalNro", "text", 0);
+	$tabla->fields["TerminalNro"]["showOnForm"] = false;
+	$tabla->fields["TerminalNro"]["showOnList"] = false;
+
+	$tabla->addField("FechTransfer", "date", 0);
+	$tabla->fields["FechTransfer"]["showOnForm"] = false;
+	$tabla->fields["FechTransfer"]["showOnList"] = false;
+
+	$tabla->addField("ImpoCobr", "text", 0, "Importe Cobrado");
+	$tabla->fields["ImpoCobr"]["txtAlign"] = "right";
+	
+	$tabla->addField("FechPago", "datetime", 0, "Fecha de pago");
+	$tabla->fields["FechPago"]["showOnForm"] = false;
 
 	//$tabla->addField("NumeEstaCuot", "select", 0, "Estado", true, true, false, true, '1', '', 'estadoscuotas', 'NumeEstaCuot', 'NombEstaCuot', '', 'NombEstaCuot');
 	$tabla->addField("NumeEstaCuot", "number", 0, "Estado");
