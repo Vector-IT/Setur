@@ -173,6 +173,8 @@ class Cuota extends Tabla
     }
 
     function CodiBarr($codiIden) {
+        global $config;
+        
         $datos2 = $config->buscarDato("SELECT NumeClie, FechVenc, FechVenc2, ImpoCuot, ImpoOtro FROM cuotas WHERE CodiIden = ". $codiIden);
         $contrato = $config->buscarDato("SELECT PorcVenc2, PorcReca FROM contratos WHERE NumeCont IN (SELECT NumeCont FROM clientes WHERE NumeClie = {$datos2["NumeClie"]})");
 
