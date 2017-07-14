@@ -152,7 +152,7 @@ class Cuota extends Tabla
         $result = parent::insertar($datos);
 
         $codiIden = \json_decode($result);
-        $codiIden->id;
+        $codiIden = $codiIden->id;
 
         $codiBarr = $this->CodiBarr($codiIden);
 
