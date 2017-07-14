@@ -175,32 +175,32 @@ class Cuota extends Tabla
     function CodiBarr($codiIden) {
         global $config;
         
-        $datos2 = $config->buscarDato("SELECT NumeClie, FechVenc, FechVenc2, ImpoCuot, ImpoOtro FROM cuotas WHERE CodiIden = ". $codiIden);
-        $contrato = $config->buscarDato("SELECT PorcVenc2, PorcReca FROM contratos WHERE NumeCont IN (SELECT NumeCont FROM clientes WHERE NumeClie = {$datos2["NumeClie"]})");
+        $datos = $config->buscarDato("SELECT NumeClie, FechVenc, FechVenc2, ImpoCuot, ImpoOtro FROM cuotas WHERE CodiIden = ". $codiIden);
+        $contrato = $config->buscarDato("SELECT PorcVenc2, PorcReca FROM contratos WHERE NumeCont IN (SELECT NumeCont FROM clientes WHERE NumeClie = {$datos["NumeClie"]})");
 
         $hoy = new \DateTime();
-        $fechVenc2 = new \DateTime($datos2["FechVenc2"]);
+        $fechVenc2 = new \DateTime($datos["FechVenc2"]);
         
         if ($hoy < $fechVenc2) {
-            $datos2["ImpoCuot2"] = $datos2["ImpoCuot"] + ($datos2["ImpoCuot"] * $contrato["PorcVenc2"] / 100);
+            $datos["ImpoCuot2"] = $datos["ImpoCuot"] + ($datos["ImpoCuot"] * $contrato["PorcVenc2"] / 100);
         }
         else {
-            $datos2["ImpoCuot"] = $datos2["ImpoCuot"] + $datos2["ImpoOtro"];
-            $datos2["ImpoCuot2"] = $datos2["ImpoCuot"];
+            $datos["ImpoCuot"] = $datos["ImpoCuot"] + $datos["ImpoOtro"];
+            $datos["ImpoCuot2"] = $datos["ImpoCuot"];
 
-            $datos2["FechVenc"] = $hoy->format("Y-m-d");
-            $datos2["FechVenc2"] = $hoy->format("Y-m-d");
+            $datos["FechVenc"] = $hoy->format("Y-m-d");
+            $datos["FechVenc2"] = $hoy->format("Y-m-d");
         }
 
         $CodiBarr = '4207';
 
         //Importe
-        $aux = number_format($ImpoVenc1, 2, "", "");
+        $aux = number_format($datos["ImpoCuot"], 2, "", "");
         $aux = substr('00000000'.$aux, -8);
         $CodiBarr.= $aux;
 
         //Fecha de vencimiento
-        $aux = new \DateTime($FechVenc1);
+        $aux = new \DateTime($datos["FechVenc"]);
         $CodiBarr.= $aux->format('m');
         $CodiBarr.= substr('000'.$aux->format('z'), -3);
 
@@ -212,14 +212,14 @@ class Cuota extends Tabla
         $CodiBarr.= '0';
 
         //Recargo 2do vencimiento
-        $aux = $ImpoVenc2 - $ImpoVenc1;
+        $aux = $datos["ImpoCuot2"] - $datos["ImpoCuot"];
         $aux = number_format($aux, 2, "", "");
         $aux = substr('000000'.$aux, -6);
         $CodiBarr.= $aux;
         
         //Fecha vencimiento 2
-        $aux = new \DateTime($FechVenc1);
-        $aux2 = new \DateTime($FechVenc2);
+        $aux = new \DateTime($datos["FechVenc"]);
+        $aux2 = new \DateTime($datos["FechVenc2"]);
         $aux = $aux2->diff($aux)->format("%a");
         $aux = substr('00'.$aux, -2);
         $CodiBarr.= $aux;

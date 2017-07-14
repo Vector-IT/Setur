@@ -386,6 +386,12 @@
 			"class"=>"btn-primary",
 			"onclick"=>"Actualizar"
 		),
+		array(
+			"id"=>"btnCodiBarr",
+			"titulo"=>'<i class="fa fa-barcode" aria-hidden="true"></i>',
+			"class"=>"btn-primary",
+			"onclick"=>"barCode"
+		),
 	];
 
 	$tabla->jsFiles = [
@@ -448,7 +454,7 @@
 
 	$tabla->addField("CodiBarr", "text", 0, "Codigo de barras");
 	$tabla->fields["CodiBarr"]["showOnForm"] = false;
-	$tabla->fields["CodiBarr"]["showOnList"] = false;
+	$tabla->fields["CodiBarr"]["isHiddenInList"] = true;
 
 	$tabla->addField("TerminalID", "text", 0);
 	$tabla->fields["TerminalID"]["showOnForm"] = false;

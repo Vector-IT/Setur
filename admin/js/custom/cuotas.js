@@ -179,3 +179,9 @@ function Actualizar(strID) {
         async:true
     });
 }
+
+function barCode(strID) {
+    var codiBarr = $("#CodiBarr" + strID).val();
+
+    location.href = 'codigoBarras.php?code='+ codiBarr;
+}
