@@ -202,7 +202,7 @@ class Cuota extends Tabla
         //Fecha de vencimiento
         $aux = new \DateTime($datos["FechVenc"]);
         $CodiBarr.= $aux->format('m');
-        $CodiBarr.= substr('000'.$aux->format('z'), -3);
+        $CodiBarr.= substr('000'.($aux->format('z')+1), -3);
 
         //Cliente
         $aux = substr('00000000000000'.$codiIden, -14);

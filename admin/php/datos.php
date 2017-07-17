@@ -10,7 +10,6 @@
 	require_once 'custom/contrato.php';
 	require_once 'custom/cliente.php';
 	require_once 'custom/cuota.php';
-	require_once 'custom/cuotapago.php';
 	require_once 'custom/cheque.php';
 
 	//Datos de configuracion iniciales
